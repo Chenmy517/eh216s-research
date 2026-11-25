@@ -1,0 +1,2662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>取证之后：亿航 EH216-S 全方位调研与分析</title>
+<meta name="description" content="以全球首个取证的无人驾驶载人 eVTOL——亿航 EH216-S 为对象，从技术构型、适航路径、应用场景、单位经济、市场财务与竞争格局六个维度做深度调研，并给出可验证的判断。课程作业网站。">
+<meta name="author" content="《飞行汽车技术基础》课程作业">
+<meta name="theme-color" content="#0e1a24">
+<meta property="og:title" content="取证之后：亿航 EH216-S 全方位调研">
+<meta property="og:description" content="全球第一张载人无人驾驶 eVTOL 型号合格证之后，空中出租车还有多远？">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chenmy517.github.io/eh216s-research/">
+<link rel="canonical" href="https://chenmy517.github.io/eh216s-research/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230e1a24'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23c0563b' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23c0563b'/%3E%3C/svg%3E">
+<style>
+/* ==========================================================================
+   亿航 EH216-S 全方位调研 — 站点样式
+   设计语言：编辑部报告 / 技术图纸 / 数据档案
+   ========================================================================== */
+
+:root {
+  --paper: #f4f1ea;
+  --paper-2: #ece7dc;
+  --paper-3: #e3dccd;
+  --ink: #14202b;
+  --ink-2: #2b3a47;
+  --ink-3: #5d6b76;
+  --ink-4: #8b959d;
+  --line: #cfc7b6;
+  --line-2: #ded7c8;
+  --navy: #1d3a52;
+  --rust: #b4502f;
+  --rust-2: #d4693f;
+  --brass: #a98b4f;
+  --sage: #6b7f6a;
+  --sky: #3f7086;
+  --dark: #0e1a24;
+  --dark-2: #142634;
+
+  --serif: "Source Han Serif SC", "Noto Serif CJK SC", "Noto Serif SC", "Songti SC", SimSun, "STSong", serif;
+  --sans: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans CJK SC", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", "Cascadia Mono", Consolas, "Roboto Mono", monospace;
+
+  --w: 1240px;
+  --rail: 232px;
+  --gap: 72px;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.85;
+  font-feature-settings: "kern" 1;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* 纸张颗粒 —— 极淡的噪点，避免大面积纯色发闷 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .35;
+  background-image: radial-gradient(rgba(20, 32, 43, .08) .5px, transparent .5px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+}
+
+img, svg { max-width: 100%; }
+a { color: inherit; }
+
+::selection {
+  background: var(--rust);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
+}
+
+/* ------------------------------ 顶部进度条 ------------------------------ */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--brass), var(--rust));
+  z-index: 120;
+  transition: width .1s linear;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 200;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 16px;
+  font-size: 13px;
+  border-radius: 2px;
+  transition: top .2s;
+}
+.skip-link:focus { top: 16px; }
+
+/* -------------------------------- Hero -------------------------------- */
+.hero {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 78% 8%, rgba(63, 112, 134, .30) 0%, rgba(14, 26, 36, 0) 58%),
+    radial-gradient(90% 70% at 10% 100%, rgba(180, 80, 47, .18) 0%, rgba(14, 26, 36, 0) 60%),
+    var(--dark);
+  color: #eef0ea;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(238, 240, 234, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(238, 240, 234, .045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(120% 100% at 50% 40%, #000 25%, transparent 85%);
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 40%, #000 25%, transparent 85%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 104px 32px 56px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: 48px;
+  align-items: center;
+  min-height: 82vh;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--brass);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 26px;
+}
+.kicker::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  max-width: 120px;
+  background: linear-gradient(90deg, rgba(169, 139, 79, .8), transparent);
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2.35rem, 4.6vw, 4.15rem);
+  line-height: 1.18;
+  letter-spacing: .01em;
+  margin: 0 0 8px;
+  text-wrap: balance;
+}
+.hero h1 .thin {
+  display: block;
+  font-size: .42em;
+  font-weight: 400;
+  letter-spacing: .18em;
+  color: #9fb3bd;
+  margin-bottom: 18px;
+  font-family: var(--mono);
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--rust-2);
+}
+
+.hero-lede {
+  margin: 26px 0 0;
+  max-width: 33em;
+  font-size: 16.5px;
+  line-height: 1.95;
+  color: #c3ccc9;
+}
+.hero-lede strong {
+  color: #f2f4ef;
+  font-weight: 500;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(212, 105, 63, .55);
+}
+
+.hero-meta {
+  margin-top: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: .08em;
+  color: #8fa3ad;
+}
+.hero-meta span b {
+  color: #dfe5e2;
+  font-weight: 500;
+}
+
+.hero-copy { min-width: 0; }
+
+.hero-figure {
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1;
+}
+.hero-figure svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.blueprint {
+  stroke: #8fb6c4;
+  fill: none;
+  stroke-width: 1;
+  opacity: .85;
+}
+.blueprint .rotor {
+  stroke: rgba(143, 182, 196, .55);
+  stroke-dasharray: 3 5;
+}
+.blueprint .rotor-disc {
+  stroke: rgba(180, 80, 47, .55);
+}
+.blueprint text {
+  font-family: var(--mono);
+  font-size: 6.5px;
+  fill: #7d97a3;
+  letter-spacing: .12em;
+  stroke: none;
+}
+.hero-figure .orbit {
+  stroke: rgba(238, 240, 234, .12);
+  stroke-dasharray: 1 7;
+}
+.fig-cap {
+  margin: 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: #7d97a3;
+}
+
+/* ----------------------------- 数字条 ----------------------------- */
+.stat-band {
+  position: relative;
+  z-index: 3;
+  background: var(--dark-2);
+  border-top: 1px solid rgba(238, 240, 234, .10);
+}
+.stat-band-inner {
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+.stat {
+  padding: 26px 18px 26px 0;
+  border-left: 1px solid rgba(238, 240, 234, .10);
+  padding-left: 18px;
+}
+.stat:first-child { border-left: 0; padding-left: 0; }
+.stat b {
+  display: block;
+  font-family: var(--mono);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 500;
+  color: #f0f2ec;
+  letter-spacing: -.01em;
+  line-height: 1.2;
+}
+.stat b small {
+  font-size: .55em;
+  color: #9fb3bd;
+  margin-left: 3px;
+  letter-spacing: .02em;
+}
+.stat span {
+  display: block;
+  margin-top: 8px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #8fa3ad;
+  letter-spacing: .02em;
+}
+
+/* ------------------------------ 版心 ------------------------------ */
+.wrap {
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+.content { min-width: 0; }
+
+/* ------------------------------ 目录 ------------------------------ */
+.toc {
+  position: sticky;
+  top: 40px;
+  padding: 64px 0 40px;
+  font-size: 13px;
+}
+.toc-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .24em;
+  color: var(--ink-4);
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+.toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--line);
+}
+.toc a {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 2px;
+  padding: 9px 0 9px 16px;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  color: var(--ink-3);
+  text-decoration: none;
+  line-height: 1.45;
+  transition: color .2s, border-color .2s;
+}
+.toc a span {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  padding-top: 2px;
+  transition: color .2s;
+}
+.toc a:hover { color: var(--ink); }
+.toc a.is-active {
+  color: var(--ink);
+  border-left-color: var(--rust);
+  font-weight: 500;
+}
+.toc a.is-active span { color: var(--rust); }
+
+.toc-foot {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-2);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.9;
+  color: var(--ink-4);
+  letter-spacing: .04em;
+}
+
+/* ------------------------------ 章节 ------------------------------ */
+main { position: relative; z-index: 1; }
+
+.sec {
+  padding: 88px 0 72px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 24px;
+}
+.sec:first-of-type { border-top: 0; padding-top: 56px; }
+
+.sec-head {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 20px;
+  margin-bottom: 36px;
+}
+.sec-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--rust);
+  padding-top: 14px;
+  border-top: 1px solid var(--rust);
+  align-self: start;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 2.9vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.32;
+  margin: 0;
+  letter-spacing: .01em;
+  text-wrap: balance;
+}
+.sec-title small {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .2em;
+  color: var(--ink-4);
+  margin-top: 12px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.sec-lede {
+  font-size: 17px;
+  line-height: 1.95;
+  color: var(--ink-2);
+  max-width: 42em;
+  margin: 18px 0 0;
+}
+
+/* ------------------------------ 正文 ------------------------------ */
+.prose { max-width: 44em; }
+.prose p { margin: 0 0 1.35em; }
+.prose h3 {
+  font-family: var(--serif);
+  font-size: 1.22rem;
+  font-weight: 600;
+  margin: 2.2em 0 .8em;
+  padding-top: .2em;
+  letter-spacing: .01em;
+}
+.prose h3::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: var(--rust);
+  margin-bottom: 12px;
+}
+.prose h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 1.8em 0 .5em;
+  letter-spacing: .02em;
+}
+.prose strong { font-weight: 600; }
+.prose em { font-style: normal; background: linear-gradient(transparent 62%, rgba(169, 139, 79, .35) 0); }
+.prose ul, .prose ol { padding-left: 1.3em; margin: 0 0 1.4em; }
+.prose li { margin: .4em 0; }
+.prose li::marker { color: var(--rust); }
+
+.lede {
+  font-family: var(--serif);
+  font-size: 1.18rem;
+  line-height: 2;
+  color: var(--ink-2);
+}
+.lede::first-letter {
+  float: left;
+  font-size: 3.1em;
+  line-height: .9;
+  padding: .08em .12em 0 0;
+  color: var(--rust);
+  font-weight: 600;
+}
+
+/* 引用角标 */
+sup.ref {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--rust);
+  margin-left: 1px;
+  text-decoration: none;
+  letter-spacing: .02em;
+}
+sup.ref:hover { text-decoration: underline; }
+
+/* ------------------------------ 卡片 ------------------------------ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin: 34px 0;
+}
+.card {
+  background: var(--paper);
+  padding: 26px 24px 28px;
+  transition: background .25s;
+}
+.card:hover { background: #faf8f3; }
+.card .n {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--ink-4);
+}
+.card h4 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  margin: 10px 0 8px;
+  font-weight: 600;
+}
+.card p {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+/* ------------------------------ 结论卡 ------------------------------ */
+.keytake {
+  background: var(--ink);
+  color: #e9ece6;
+  padding: 38px 40px;
+  margin: 40px 0;
+  position: relative;
+  overflow: hidden;
+}
+.keytake::after {
+  content: "结论";
+  position: absolute;
+  right: -10px;
+  bottom: -26px;
+  font-family: var(--serif);
+  font-size: 7rem;
+  color: rgba(238, 240, 234, .05);
+  letter-spacing: .1em;
+  pointer-events: none;
+}
+.keytake h4 {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .24em;
+  color: var(--brass);
+  margin: 0 0 16px;
+  text-transform: uppercase;
+}
+.keytake p {
+  font-family: var(--serif);
+  font-size: 1.14rem;
+  line-height: 1.95;
+  margin: 0;
+  color: #e9ece6;
+  position: relative;
+  z-index: 1;
+}
+.keytake p + p { margin-top: .9em; }
+
+/* 判断标签 */
+.verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  padding: 4px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  vertical-align: 2px;
+  white-space: nowrap;
+}
+.verdict.hi { color: #2f6b4f; border-color: #9dc0ab; background: rgba(107, 127, 106, .10); }
+.verdict.mid { color: #8a6420; border-color: #d3bc8b; background: rgba(169, 139, 79, .12); }
+.verdict.lo { color: #9a3f22; border-color: #dfb0a0; background: rgba(180, 80, 47, .10); }
+
+/* 证据等级 */
+.ev {
+  display: inline-block;
+  min-width: 17px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 16px;
+  border-radius: 2px;
+  padding: 0 4px;
+  vertical-align: 1px;
+  margin-left: 4px;
+  cursor: help;
+}
+.ev-a { background: var(--navy); color: #fff; }
+.ev-b { background: var(--brass); color: #fff; }
+.ev-c { background: transparent; color: var(--ink-3); border: 1px solid var(--line); }
+
+/* ------------------------------ 图表 ------------------------------ */
+.figure {
+  margin: 44px 0;
+  border-top: 1px solid var(--ink);
+  padding-top: 16px;
+}
+.figure-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.figure-head h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: .02em;
+}
+.figure-head span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--ink-4);
+  white-space: nowrap;
+}
+.figure figcaption {
+  margin-top: 16px;
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--ink-3);
+  max-width: 60em;
+}
+.figure figcaption b { color: var(--ink-2); font-weight: 600; }
+.fig-svg { display: block; width: 100%; height: auto; }
+.fig-svg text {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: var(--ink-4);
+}
+.fig-svg .lbl { font-family: var(--sans); font-size: 10.5px; fill: var(--ink-3); }
+.fig-svg .val { font-family: var(--mono); font-size: 10px; fill: var(--ink-2); }
+.fig-svg .val-w { fill: #fff; }
+.fig-svg .grid-line { stroke: var(--line-2); stroke-width: 1; }
+.fig-svg .axis { stroke: var(--ink-3); stroke-width: 1; }
+.fig-svg .bar { fill: var(--navy); }
+.fig-svg .bar-alt { fill: var(--brass); }
+.fig-svg .line { fill: none; stroke: var(--rust); stroke-width: 2; }
+
+/* 图例 */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font-size: 11.5px;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+}
+.legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+
+/* ------------------------------ 表格 ------------------------------ */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  margin: 32px 0;
+  background: var(--paper);
+  -webkit-overflow-scrolling: touch;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.6;
+  min-width: 640px;
+}
+caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-2);
+}
+th, td {
+  padding: 11px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line-2);
+  vertical-align: top;
+}
+thead th {
+  background: var(--paper-2);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--ink-3);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+tbody tr:hover { background: #faf8f3; }
+tbody th {
+  font-weight: 500;
+  color: var(--ink);
+  border-right: 1px solid var(--line-2);
+}
+td.num, th.num { font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+td.hi { color: var(--rust); font-weight: 600; }
+.tbl-note {
+  font-size: 11.5px;
+  color: var(--ink-4);
+  margin-top: -18px;
+  line-height: 1.7;
+}
+
+/* 打勾/叉 */
+.mk { font-family: var(--mono); }
+.mk-y { color: #2f6b4f; }
+.mk-n { color: var(--rust); }
+.mk-p { color: var(--brass); }
+
+/* ------------------------------ 时间轴 ------------------------------ */
+.timeline {
+  position: relative;
+  margin: 40px 0 20px;
+  padding-left: 26px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--line), var(--ink-4));
+}
+.tl-item {
+  position: relative;
+  padding: 0 0 26px 0;
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 18px;
+}
+.tl-item::before {
+  content: "";
+  position: absolute;
+  left: -26px;
+  top: 7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--ink-3);
+}
+.tl-item.major::before {
+  background: var(--rust);
+  border-color: var(--rust);
+  box-shadow: 0 0 0 4px rgba(180, 80, 47, .14);
+}
+.tl-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+  padding-top: 2px;
+}
+.tl-body h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.tl-body p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink-3);
+}
+.tl-item.major .tl-body h4 { color: var(--rust); }
+
+/* ------------------------------ 交互计算器 ------------------------------ */
+.calc {
+  border: 1px solid var(--ink);
+  background: #faf8f3;
+  margin: 40px 0;
+}
+.calc-head {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.calc-head h4 {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.calc-head span {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  letter-spacing: .06em;
+}
+.calc-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.calc-inputs {
+  padding: 26px 26px 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 34px;
+  border-bottom: 1px solid var(--line);
+}
+.calc-out {
+  padding: 24px 26px 26px;
+  background: var(--ink);
+  color: #e9ece6;
+}
+.field { margin-bottom: 20px; }
+.field:last-child { margin-bottom: 0; }
+.field label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+  gap: 12px;
+}
+.field label b {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--rust);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.field .hint {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-4);
+  margin-top: -4px;
+  margin-bottom: 6px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--line);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -6px;
+  background: var(--paper);
+  border: 1.5px solid var(--rust);
+  border-radius: 50%;
+  transition: transform .15s, background .15s;
+}
+input[type="range"]:hover::-webkit-slider-thumb { background: var(--rust); transform: scale(1.12); }
+input[type="range"]::-moz-range-track { height: 2px; background: var(--line); }
+input[type="range"]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  background: var(--paper);
+  border: 1.5px solid var(--rust);
+  border-radius: 50%;
+}
+.out-title {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  color: var(--brass);
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+.out-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px 14px;
+}
+.out-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.out-item b {
+  display: block;
+  font-family: var(--mono);
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  font-weight: 500;
+  color: #f2f4ef;
+  line-height: 1.2;
+}
+.out-item b.is-bad { color: #e08a6a; }
+.out-item b.is-good { color: #a8c9a0; }
+.out-item span {
+  display: block;
+  font-size: 11px;
+  color: #93a6af;
+  margin-top: 4px;
+  letter-spacing: .02em;
+}
+.out-note {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(238, 240, 234, .14);
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: #9fb3bd;
+}
+.out-note.is-bad-text { color: #e08a6a; }
+.out-note b { color: #e9ece6; font-weight: 500; }
+.out-item b.is-bad { color: #e08a6a; }
+.out-item b.is-good { color: #a8c9a0; }
+.bar-meter {
+  margin-top: 14px;
+  height: 4px;
+  background: rgba(238, 240, 234, .14);
+  position: relative;
+  overflow: hidden;
+}
+.bar-meter i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, var(--brass), var(--rust-2));
+  transition: width .35s var(--ease);
+}
+
+/* ------------------------------ 场景矩阵 ------------------------------ */
+.matrix {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  margin: 30px 0;
+}
+.matrix > div {
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--line-2);
+  border-right: 1px solid var(--line-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.matrix > div:nth-child(5n) { border-right: 0; }
+.matrix .mh {
+  background: var(--paper-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--ink-3);
+}
+.matrix .mr {
+  font-weight: 500;
+  background: #faf8f3;
+}
+.cell-score {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+.cell-score i {
+  width: 7px;
+  height: 14px;
+  background: var(--line-2);
+  display: inline-block;
+}
+.cell-score i.on { background: var(--navy); }
+.cell-score i.on.mid { background: var(--brass); }
+.cell-score i.on.low { background: var(--rust); }
+.cell-score em {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-style: normal;
+  color: var(--ink-4);
+  margin-left: 6px;
+}
+
+/* ------------------------------ 注释框 ------------------------------ */
+.note {
+  border-left: 2px solid var(--brass);
+  background: rgba(169, 139, 79, .07);
+  padding: 18px 22px;
+  margin: 28px 0;
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--ink-2);
+}
+.note b { font-weight: 600; }
+.note .t {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  color: var(--brass);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.warn {
+  border-left: 2px solid var(--rust);
+  background: rgba(180, 80, 47, .06);
+}
+.warn .t { color: var(--rust); }
+
+/* ------------------------------ 双栏 ------------------------------ */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin: 30px 0;
+}
+.two-col > div > h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.two-col p, .two-col li { font-size: 13.5px; line-height: 1.8; color: var(--ink-2); }
+.two-col ul { margin: 0; padding-left: 1.1em; }
+
+/* ------------------------------ 风险列表 ------------------------------ */
+.risks { margin: 30px 0; border-top: 1px solid var(--line); }
+.risk {
+  display: grid;
+  grid-template-columns: 46px 1fr 92px;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line-2);
+  align-items: start;
+}
+.risk-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  letter-spacing: .1em;
+  padding-top: 3px;
+}
+.risk-body h4 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.risk-body p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink-3);
+}
+.risk-level {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-align: right;
+  padding-top: 5px;
+  color: var(--ink-4);
+}
+.risk-level b { display: block; font-size: 12px; margin-bottom: 2px; }
+.lv-hi b { color: var(--rust); }
+.lv-mid b { color: var(--brass); }
+
+/* ------------------------------ 页脚 / 参考文献 ------------------------------ */
+.refs {
+  margin-top: 34px;
+  counter-reset: ref;
+  font-size: 12.5px;
+  line-height: 1.75;
+}
+.refs li {
+  counter-increment: ref;
+  list-style: none;
+  position: relative;
+  padding: 9px 0 9px 34px;
+  border-bottom: 1px dotted var(--line);
+  color: var(--ink-2);
+  word-break: break-word;
+}
+.refs li::before {
+  content: "[" counter(ref) "]";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--rust);
+}
+.refs a { color: var(--sky); text-decoration: none; border-bottom: 1px solid rgba(63, 112, 134, .3); }
+.refs a:hover { border-bottom-color: var(--sky); }
+.refs:target li { background: rgba(180, 80, 47, .05); }
+
+footer.site {
+  background: var(--dark);
+  color: #9fb3bd;
+  margin-top: 60px;
+  padding: 56px 0 40px;
+  font-size: 12.5px;
+  position: relative;
+  z-index: 1;
+}
+footer.site .wrap {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 40px;
+}
+footer.site h4 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--brass);
+  margin: 0 0 14px;
+  text-transform: uppercase;
+}
+footer.site p { margin: 0 0 10px; line-height: 1.8; }
+footer.site a { color: #c3ccc9; text-decoration: none; border-bottom: 1px solid rgba(195, 204, 201, .25); }
+footer.site a:hover { color: #fff; border-bottom-color: #fff; }
+.foot-bottom {
+  max-width: var(--w);
+  margin: 40px auto 0;
+  padding: 20px 32px 0;
+  border-top: 1px solid rgba(238, 240, 234, .12);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: #6f858f;
+}
+
+/* ------------------------------ 动效 ------------------------------ */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.js .reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* ------------------------------ 响应式 ------------------------------ */
+@media (max-width: 1080px) {
+  :root { --gap: 40px; --rail: 200px; }
+  .hero-inner { grid-template-columns: minmax(0, 1fr); padding-top: 84px; }
+  .hero-figure { max-width: min(420px, 100%); margin: 0 auto; }
+  .stat-band-inner { grid-template-columns: repeat(3, 1fr); }
+  .stat { border-left: 0; padding-left: 0; border-top: 1px solid rgba(238, 240, 234, .1); }
+  .stat:nth-child(-n+3) { border-top: 0; }
+  .hero-meta { font-size: 10.5px; }
+}
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .toc { display: none; }
+  .sec-lede { padding-left: 0; }
+  .two-col { grid-template-columns: 1fr; gap: 26px; }
+  .calc-inputs { grid-template-columns: minmax(0, 1fr); padding: 22px 20px 4px; }
+  .out-grid, .out-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .matrix { grid-template-columns: 1.2fr repeat(4, 1fr); font-size: 11px; }
+  .matrix > div { padding: 9px 8px; }
+  .tl-item { grid-template-columns: 1fr; gap: 2px; }
+  footer.site .wrap { grid-template-columns: 1fr; gap: 26px; }
+  .hero-inner { min-height: auto; padding-bottom: 30px; }
+}
+
+@media (max-width: 560px) {
+  .wrap, .hero-inner, .stat-band-inner, .foot-bottom { padding-left: 20px; padding-right: 20px; }
+  .sec { padding: 60px 0 48px; }
+  .sec-head { grid-template-columns: 1fr; gap: 10px; }
+  .sec-num { padding-top: 0; border-top: 0; }
+  .stat-band-inner { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(3) { border-top: 1px solid rgba(238, 240, 234, .1); }
+  .keytake { padding: 26px 22px; }
+  .out-grid { grid-template-columns: 1fr 1fr; }
+  .risk { grid-template-columns: 32px 1fr; }
+  .risk-level { display: none; }
+  .matrix { grid-template-columns: 1.1fr repeat(4, 1fr); font-size: 10px; }
+  .cell-score em { display: none; }
+}
+
+/* ------------------------------ 打印 ------------------------------ */
+@media print {
+  .toc, .scroll-progress, .calc, footer.site { display: none; }
+  body { background: #fff; font-size: 11pt; }
+  body::before { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero h1, .hero-lede, .hero-meta span b { color: #000; }
+  .sec { break-inside: avoid-page; }
+  a { text-decoration: none; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#s01">跳至正文</a>
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="kicker">Fundamentals of Flying Vehicle Technology · 2026</p>
+      <h1>
+        <span class="thin">EHANG EH216-S · 全方位调研</span>
+        取证之后，<br><em>空中出租车</em>还有多远
+      </h1>
+      <p class="hero-lede">
+        2023 年 10 月，亿航 EH216-S 拿到全球第一张载人无人驾驶 eVTOL 型号合格证；两年后，它一年交付 221 架、飞过 23 个国家，却在 2026 年 8 月撤回了全年收入指引。
+        <strong>本报告要回答的不是"它能不能飞"，而是"它能不能被经营"。</strong>
+      </p>
+      <div class="hero-meta">
+        <span><b>对象</b> 亿航智能 EH216-S（NASDAQ: EH）</span>
+        <span><b>方法</b> 公开资料三角验证 + 单位经济建模</span>
+        <span><b>数据截至</b> 2026-11-25</span>
+      </div>
+    </div>
+
+    <div class="hero-figure" aria-hidden="true">
+      <svg id="craftBlueprint" viewBox="0 0 420 420" role="img" aria-label="EH216-S 俯视构型示意：8 轴 16 桨共轴双桨"></svg>
+      <p class="fig-cap">俯视示意 · 8 轴 16 桨共轴双桨 · 旋翼展开宽 5.73 m</p>
+    </div>
+  </div>
+
+  <div class="stat-band">
+    <div class="stat-band-inner">
+      <div class="stat"><b data-count="4">4</b><span>张证齐全<br>TC / PC / AC / OC</span></div>
+      <div class="stat"><b data-count="620">620</b><span>最大起飞重量 kg<br>载荷 220 kg</span></div>
+      <div class="stat"><b data-count="30">30</b><span>最大航程 km<br>航时 25 分钟</span></div>
+      <div class="stat"><b data-count="221">221</b><span>2025 年交付架数<br>含 6 架 VT35</span></div>
+      <div class="stat"><b data-count="299">299</b><span>元 / 3.5 分钟<br>合肥观光票价</span></div>
+      <div class="stat"><b>撤回</b><span>2026 年 6 亿元<br>收入指引</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ MAIN ============================ -->
+<main>
+<div class="wrap">
+  <div class="layout">
+
+    <!-- ---------------------------- 目录 ---------------------------- -->
+    <aside class="toc" aria-label="目录">
+      <p class="toc-title">Contents</p>
+      <ol>
+        <li><a href="#s01"><span>01</span>摘要：三个判断</a></li>
+        <li><a href="#s02"><span>02</span>对象、方法与证据</a></li>
+        <li><a href="#s03"><span>03</span>技术解构：一架放大的多旋翼</a></li>
+        <li><a href="#s04"><span>04</span>适航：第一张证的含义</a></li>
+        <li><a href="#s05"><span>05</span>场景：只有一种生意跑通了</a></li>
+        <li><a href="#s06"><span>06</span>单位经济：299 元能撑起什么</a></li>
+        <li><a href="#s07"><span>07</span>市场：从 9 亿指引到撤回指引</a></li>
+        <li><a href="#s08"><span>08</span>竞争：两条技术路线的分野</a></li>
+        <li><a href="#s09"><span>09</span>风险与情景推演</a></li>
+        <li><a href="#s10"><span>10</span>结论与建议</a></li>
+        <li><a href="#s11"><span>11</span>附录：数据、术语与文献</a></li>
+      </ol>
+      <div class="toc-foot">
+        全文约 10,000 字<br>
+        图 3 · 表 5 · 交互模型 2<br>
+        证据等级 A / B / C
+      </div>
+    </aside>
+
+    <!-- ---------------------------- 正文 ---------------------------- -->
+    <div class="content">
+
+      <!-- ======================= 01 ======================= -->
+      <section class="sec" id="s01">
+        <div class="sec-head reveal">
+          <div class="sec-num">01 / SUMMARY</div>
+          <div>
+            <h2 class="sec-title">三句话，先说结论<small>Executive summary</small></h2>
+            <p class="sec-lede">
+              对 EH216-S 的评价极易滑向两个极端：一边是"全球首证、中国方案"的宏大叙事，另一边是"股价跌去九成、商业化失败"的冷嘲。两者都偷懒。把技术、适航、场景与商业分开看，结论会清晰得多。
+            </p>
+          </div>
+        </div>
+
+        <div class="cards reveal">
+          <div class="card">
+            <div class="n">判断一 · 技术</div>
+            <h4>工程可行，但被能量密度锁死<span class="verdict hi">可行</span></h4>
+            <p>8 轴 16 桨共轴双桨的分布式电推进，用冗余换取了无人驾驶所需的容错能力；但多旋翼构型的升阻比只有复合翼的三分之一，30 km 航程不是设计失误，而是构型选择的必然结果。</p>
+          </div>
+          <div class="card">
+            <div class="n">判断二 · 适航</div>
+            <h4>首证是真的，但不可简单外推<span class="verdict hi">领先</span></h4>
+            <p>"无人驾驶 + 多旋翼 + 隔离空域 + 空中游览"是一组被精心限定的运行条件。中国用"运行限制换取证速度"跑通了全球第一条路，但这不等于中国 eVTOL 全面领先，也不等于 EASA / FAA 会互认。</p>
+          </div>
+          <div class="card">
+            <div class="n">判断三 · 商业</div>
+            <h4>还没有证明可以被经营<span class="verdict lo">未闭环</span></h4>
+            <p>2025 年交付 221 架、收入 5.1 亿元，看似高增长；但 2026 年上半年收入仅 1.04 亿元、公司撤回 6 亿元指引。单机在 299 元票价下需要日均 17 个架次才能打平，而物理上限只有 6–8 个架次。</p>
+          </div>
+        </div>
+
+        <div class="prose reveal">
+          <p class="lede">
+            如果把 eVTOL 看作一款产品，EH216-S 已经完成了最难的一步：让监管机构相信一架没有飞行员的航空器可以把人安全地送上天空。但如果把它看作一门生意，它还停留在最原始的一步：把飞机卖给愿意为"示范"付费的人，而不是卖给愿意为"出行"付费的人。
+          </p>
+          <p>
+            这份调研的价值不在于复述"全球首证"的荣誉，而在于把荣誉拆开，看它由哪些具体条件组成、这些条件能否复制、复制之后还剩多少商业空间。为此，本报告建立了四条互相独立又彼此印证的分析线：<strong>技术是否成立、适航如何取得、场景是否真实、经济是否闭环</strong>。每一条都给出可核查的数据，而不是形容词。
+          </p>
+          <p>
+            一个必须提前说明的立场：<strong>取证领先与商业成功之间，隔着一整个运营体系的距离。</strong>EH216-S 用 17 个月走完了从型号合格证（2023-10）到运营合格证（2025-03）的路，却可能要用更长的时间去回答一个更朴素的问题——谁愿意每周花 299 元，飞 3 分半钟。
+          </p>
+        </div>
+
+        <div class="keytake reveal">
+          <h4>核心命题</h4>
+          <p>EH216-S 证明了"无人驾驶载人 eVTOL 可以被审定"，但尚未证明"它可以被经营"。前一个证明属于中国民航局与亿航的工程能力，后一个证明需要空域、票价、利用率与监管节奏同时到位——而这些变量，没有一个掌握在飞机制造商手里。</p>
+        </div>
+      </section>
+
+      <!-- ======================= 02 ======================= -->
+      <section class="sec" id="s02">
+        <div class="sec-head reveal">
+          <div class="sec-num">02 / METHOD</div>
+          <div>
+            <h2 class="sec-title">为什么是它，以及我如何验证<small>Object &amp; method</small></h2>
+            <p class="sec-lede">
+              在所有飞行汽车候选对象中，EH216-S 的资料可得性最好、争议也最大。它同时是"全球第一"和"增长失速"的样本，恰好适合用来练习一件事：如何在信息极不对称的行业里做尽调。
+            </p>
+          </div>
+        </div>
+
+        <div class="two-col reveal">
+          <div>
+            <h4>选择它的三个理由</h4>
+            <ul>
+              <li><strong>唯一四证齐全。</strong>全球目前只有 EH216-S 同时持有型号合格证（TC）、生产许可证（PC）、标准适航证（AC）与运营合格证（OC），四个环节都有官方文件可查。</li>
+              <li><strong>数据密度最高。</strong>作为纳斯达克上市公司，它有连续财报、交付量、分部收入；作为取证产品，它有局方审定记录与公开票价。</li>
+              <li><strong>争议最有信息量。</strong>技术领先却商业承压，正好把"技术—制度—商业"三者的错位暴露出来。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>四条分析线</h4>
+            <ul>
+              <li><strong>技术线：</strong>构型 → 气动效率 → 能量约束 → 安全冗余，用可复算的物理关系判断性能边界。</li>
+              <li><strong>制度线：</strong>TC → PC → AC → OC 四证如何闭环，审定基础是什么，运行限制有多严。</li>
+              <li><strong>场景线：</strong>把"能飞"翻译成"有人愿意付费"，逐场景打分。</li>
+              <li><strong>经济线：</strong>用单位经济模型反推票价、利用率与回收期，检验商业可行性。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="prose reveal">
+          <h3>证据分级：把"据说"和"文件"分开</h3>
+          <p>
+            eVTOL 行业的信息噪音极大：公司新闻稿偏乐观、媒体报道常把"演示飞行"写成"商业运营"、自媒体则反复引用彼此的错误数字。本报告对每条关键数据标注证据等级，读者可以据此判断可信度。
+          </p>
+          <ul>
+            <li><span class="ev ev-a">A</span> <strong>一手官方文件</strong>：民航局公告、适航审定文件、SEC 披露的财报、公司投资者关系页面。</li>
+            <li><span class="ev ev-b">B</span> <strong>可核查的二手报道</strong>：主流财经媒体对具体事件的报道，且能与 A 类信息交叉印证。</li>
+            <li><span class="ev ev-c">C</span> <strong>估算与推断</strong>：由公开参数推导的模型结果，本报告会明确写出假设，读者可自行替换参数复算。</li>
+          </ul>
+          <div class="note">
+            <span class="t">方法局限</span>
+            本报告没有进行一手访谈，也未获得亿航的非公开经营数据。财务数字来自公司财报（未经审计的季度数据会有调整）；票价来自公开报道与售票页面，存在季节与渠道差异；单位经济模型中的运维成本为行业经验值，非公司披露。凡涉及推断处均已标注 <span class="ev ev-c">C</span>。
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 03 ======================= -->
+      <section class="sec" id="s03">
+        <div class="sec-head reveal">
+          <div class="sec-num">03 / TECHNOLOGY</div>
+          <div>
+            <h2 class="sec-title">一架没有翅膀的飞机<small>Airframe, propulsion &amp; the energy ceiling</small></h2>
+            <p class="sec-lede">
+              EH216-S 的飞行原理可以压缩成一句话：用 16 个旋翼的冗余，换取"没有飞行员也能安全落地"的确定性。而它的全部局限，也写在同一句话里——升力必须由旋翼持续产生，一旦离开地面，每一秒都在烧电。
+            </p>
+          </div>
+        </div>
+
+        <div class="table-wrap reveal">
+          <table>
+            <caption>表 1　EH216-S 主要技术参数（证据等级 A：官网、专用条件 SC-21-002、型号合格证数据单 TCDS）<sup class="ref"><a href="#r5">5</a></sup></caption>
+            <thead>
+              <tr><th>项目</th><th class="num">数值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>外形尺寸</th><td class="num">6.05 × 5.73 × 1.93 m</td><td>长 × 宽（旋翼展开）× 高</td></tr>
+              <tr><th>最大起飞重量</th><td class="num">620 kg</td><td>专用条件设定的审定上限为 650 kg</td></tr>
+              <tr><th>最大载荷</th><td class="num">220 kg</td><td>两名乘员 + 随身行李</td></tr>
+              <tr><th>动力布局</th><td class="num">8 轴 / 16 桨</td><td>每轴共轴双桨，16 台电机独立驱动</td></tr>
+              <tr><th>储能</th><td class="num">17 kWh</td><td>12 组锂离子电池包，BMS 全程监控</td></tr>
+              <tr><th>续航 / 航程</th><td class="num">25 min / 30 km</td><td>厂方口径；VFS 记录为 21 min / 35 km<sup class="ref"><a href="#r7">7</a></sup></td></tr>
+              <tr><th>速度</th><td class="num">90 km/h</td><td>最大平飞速度；VNE 105，最大设计速度 130</td></tr>
+              <tr><th>使用升限</th><td class="num">200 m AGL</td><td>对地高度限制；最大海拔 3000 m</td></tr>
+              <tr><th>抗风</th><td class="num">≤ 6 级</td><td>约 10.8–13.8 m/s，属运行限制而非结构极限</td></tr>
+              <tr><th>充电</th><td class="num">约 120 min</td><td>标准充满；快充方案仍在研发</td></tr>
+              <tr><th>噪声</th><td class="num">78.2 dBA @30 m</td><td>第三方实测；官方口径为 100 m 处 &lt;65 dB</td></tr>
+              <tr><th>整机降落伞</th><td class="num">未配备</td><td>官网与 TCDS 均无记载，安全依赖冗余 + 迫降</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tbl-note reveal">注：航程与航时的差异来自测试条件（载荷、气象、预留电量）不同，本报告后续计算取 30 km / 25 min 的厂方口径。</p>
+
+        <div class="prose reveal">
+          <h3>3.1　为什么是多旋翼：效率的数学</h3>
+          <p>
+            多旋翼是最"笨"的飞行构型。固定翼靠机翼在前进中产生升力，升阻比可达 12–18；多旋翼没有机翼，只能把功率灌进旋翼向下推空气，整机前倾产生一点向前的分力，升阻比通常只有 3–5。这意味着同样的能量，复合翼构型能飞三到四倍的距离。
+          </p>
+          <p>
+            亿航当然知道这一点。选择多旋翼的理由不是气动效率，而是<strong>适航成本与可靠性</strong>：没有倾转机构、没有变距桨毂、没有机翼-旋翼干扰，活动部件少一个数量级，失效模式简单到可以被逐条枚举、逐条验证。对于一个要从零建立审定标准的品类，"简单"比"高效"更值钱。
+          </p>
+          <p>
+            代价可以直接算出来。17 kWh 电池<sup class="ref"><a href="#r22">22</a></sup>按 75% 放电深度可用约 12.75 kWh；以 31 kW 的平均功率巡航，正好撑 25 分钟；按 90 km/h 巡航并预留 15% 余量，航程约 32 km——与官方 30 km 高度吻合。也就是说，<strong>30 km 不是"技术不努力"，而是 620 kg 起飞重量、17 kWh 电池与多旋翼气动效率三者共同决定的硬边界</strong>。
+          </p>
+        </div>
+
+        <div class="calc reveal">
+          <div class="calc-head">
+            <h4>交互模型 01　能量—航时约束</h4>
+            <span>拖动参数，观察航程如何被物理规律锁死</span>
+          </div>
+          <div class="calc-body">
+            <div class="calc-inputs">
+              <div class="field">
+                <label for="enDensity">电池包能量密度 <b><span id="enDensityVal">200</span> Wh/kg</b></label>
+                <span class="hint">当前量产锂离子电池包约 180–220 Wh/kg；固态电池实验室可达 400+</span>
+                <input type="range" id="enDensity" min="150" max="400" step="5" value="200">
+              </div>
+              <div class="field">
+                <label for="enMass">电池质量 <b><span id="enMassVal">85</span> kg</b></label>
+                <span class="hint">约占最大起飞重量的 13.7%</span>
+                <input type="range" id="enMass" min="50" max="220" step="5" value="85">
+              </div>
+              <div class="field">
+                <label for="enPower">巡航平均功率 <b><span id="enPowerVal">31</span> kW</b></label>
+                <span class="hint">620 kg 级多旋翼悬停/巡航的典型功率量级</span>
+                <input type="range" id="enPower" min="20" max="60" step="1" value="31">
+              </div>
+            </div>
+            <div class="calc-out">
+              <p class="out-title">Model output</p>
+              <div class="out-grid four">
+                <div class="out-item"><b id="enOutE">12.8</b><span>可用电量 / kWh</span></div>
+                <div class="out-item"><b id="enOutT">25</b><span>理论航时 / min</span></div>
+                <div class="out-item"><b id="enOutR">32</b><span>理论航程 / km</span></div>
+                <div class="out-item"><b id="enOutShare">14</b><span>电池占 MTOW / %</span></div>
+              </div>
+              <p class="out-note">
+                若把航时做到 40 分钟，需要 <b id="enOutNeed">139</b> kg 电池，最大起飞重量将升至 <b id="enOutMtow">674</b> kg——<span id="enMtowNote">已超过专用条件 650 kg 的审定上限</span>。这就是"重量螺旋"：堆电池增加重量，重量又推高功率需求。
+              </p>              <div class="bar-meter"><i id="enBar" style="width:45%"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose reveal">
+          <p>
+            这个模型有一个乐观的简化：假设平均功率不随重量变化。真实情况更糟——电池增加 50 kg，整机就要多产生 8% 的升力，功率随之上升，航时增长远低于线性。<strong>在电池能量密度没有代际突破之前，多旋翼的航程天花板大致就钉在 30–50 km。</strong>亿航把 480 Wh/kg 的固态电池装上了一架验证机、飞了 48 分钟<sup class="ref"><a href="#r21">21</a></sup>，但那是试验件，不是取证产品。
+          </p>
+
+          <h3>3.2　冗余哲学：不是"出事能跳伞"，而是"不出事"</h3>
+          <p>
+            与大众想象不同，EH216-S 没有整机降落伞。它的安全逻辑是另一套：三套独立飞控互为备份、带投票机制；16 台电机与 12 组电池彼此独立；厂方称在权威检测中停转 5 个桨后仍能安全飞行与起降；4G/5G 多运营商链路加密并支持断链续飞；飞控内置 Fail-Safe，实时判断"继续飞"还是"就近迫降"。
+          </p>
+          <p>
+            这是一种"绝不失去控制"的设计，而不是"失去控制后还能活"的设计。对多旋翼而言，后者本来就难以成立：200 m 高度、90 km/h、旋翼停转后的下落时间只有数秒，伞的开伞包线根本覆盖不了。真正兜底的是运行限制——这架飞机被允许飞的条件，比它能飞的条件严格得多。
+          </p>
+          <div class="note warn">
+            <span class="t">一个必须说清的口径差异</span>
+            EH216-S 的审定基础是中国民航局 2022 年颁布的专用条件 <b>SC-21-002</b><sup class="ref"><a href="#r6">6</a></sup>，其对灾难性失效的要求是"极不可能且不得由单点失效导致"，业界普遍按 <b>10⁻⁷/飞行小时</b> 量级解读<sup class="ref"><a href="#r30">30</a></sup>；而 EASA 的 SC-VTOL 对"增强型"类别要求 <b>10⁻⁹</b>。两者相差两个数量级。这不是"谁更安全"的道德判断，而是"用运行限制换审定速度"的制度选择：更低的固有安全目标，必须由更严的运行条件来补偿。
+          </div>
+
+          <h3>3.3　运行边界，就是商业边界</h3>
+          <p>
+            型号合格证数据单列出的禁飞条件相当长<sup class="ref"><a href="#r8">8</a></sup>：雨、雪、雷暴、结冰、沙尘暴、大雾，以及水上运行。运营合格证进一步把运行限定为" A 点起降、留空飞行"，对地高度不超过 200 m，6 级风禁飞。把这些条件叠加起来，剩下的可用场景其实只有一个——<strong>天气良好的白天，在一个固定起降点上方，飞一个闭合的圈</strong>。
+          </p>
+          <p>
+            噪声是另一条隐性边界。第三方在 30 m 处实测 78.2 dBA<sup class="ref"><a href="#r31">31</a></sup>，50 m 处 71.3 dBA；官方口径是 100 m 处低于 65 dB。这比直升机好得多（EC135 起降源强约 106 dB），但比城市背景噪声（约 50–55 dBA）仍高出 20 dB 以上。它足以支撑"景区里偶尔飞几架"，却不足以支撑"小区楼顶每分钟起降一架"。
+          </p>
+        </div>
+      </section>
+
+      <!-- ======================= 04 ======================= -->
+      <section class="sec" id="s04">
+        <div class="sec-head reveal">
+          <div class="sec-num">04 / CERTIFICATION</div>
+          <div>
+            <h2 class="sec-title">四张证，与一条被折叠的路<small>Type, production, airworthiness &amp; operator certificates</small></h2>
+            <p class="sec-lede">
+              从 2020 年 12 月递交型号合格证申请，到 2025 年 3 月拿到运营合格证，EH216-S 用了四年零三个月。这条路上最关键的动作不是"把技术做得更强"，而是"把要证明的问题变得更小"。
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline reveal">
+          <div class="tl-item"><div class="tl-date">2020-12</div><div class="tl-body"><h4>递交 TC 申请</h4><p>亿航向中国民航局提交 EH216-S 型号合格证申请书，全球尚无载人无人驾驶航空器的审定先例。</p></div></div>
+          <div class="tl-item"><div class="tl-date">2021-01</div><div class="tl-body"><h4>正式受理，组建审查组</h4><p>民航局适航司受理申请，诞生全球首个载人无人机系统 TC 审定项目；4 月组建 TC 审查工作组。</p></div></div>
+          <div class="tl-item major"><div class="tl-date">2022-02</div><div class="tl-body"><h4>专用条件 SC-21-002 颁布</h4><p>没有现成标准可用，民航局为这一个型号量身定制审定基础。这是整条路径的分水岭：标准为产品而写，而非产品去适配标准。</p></div></div>
+          <div class="tl-item"><div class="tl-date">2023-08</div><div class="tl-body"><h4>完成全部符合性试飞</h4><p>累计 40,000 余架次摸底与验证飞行，65 大项、450 余科目正式符合性验证试验。</p></div></div>
+          <div class="tl-item major"><div class="tl-date">2023-10-13</div><div class="tl-body"><h4>型号合格证 TC</h4><p>全球首张载人无人驾驶 eVTOL 型号合格证，证明型号设计符合适航要求<sup class="ref"><a href="#r1">1</a></sup>。</p></div></div>
+          <div class="tl-item"><div class="tl-date">2023-12-21</div><div class="tl-body"><h4>首架标准适航证 AC</h4><p>首架量产机在云浮基地下线并通过单机适航检查，同日交付广州客户<sup class="ref"><a href="#r3">3</a></sup>。</p></div></div>
+          <div class="tl-item major"><div class="tl-date">2024-03-28</div><div class="tl-body"><h4>生产许可证 PC（PC0076A-ZN）</h4><p>民航中南局颁发全国首张载人无人机生产许可证，标志进入规模化生产阶段<sup class="ref"><a href="#r2">2</a></sup>。</p></div></div>
+          <div class="tl-item major"><div class="tl-date">2025-03-28</div><div class="tl-body"><h4>运营合格证 OC</h4><p>广东亿航通航、合肥合翼航空同时获颁全国首批载人类无人驾驶航空器运营合格证，四证闭环<sup class="ref"><a href="#r4">4</a></sup>。</p></div></div>
+          <div class="tl-item"><div class="tl-date">2025-03 起</div><div class="tl-body"><h4>商业运营启动</h4><p>广州、合肥两地开展载人观光飞行，中国低空经济进入"载人时代"。</p></div></div>
+        </div>
+
+        <div class="prose reveal">
+          <h3>4.1　"专用条件"是一把双刃剑</h3>
+          <p>
+            SC-21-002 的意义怎么强调都不过分：它让一个此前不存在的品类第一次拥有了可执行的审定依据。但它同时意味着，EH216-S 的适航路径<strong>不可直接复制</strong>到其他构型——每一款新飞机都要重新论证一套专用条件，审定周期无法通过"套用标准"缩短。这也解释了为什么 2026 年民航局要连发 8 份适航管理程序修订稿，把"一事一议"变成"分类管理"。
+          </p>
+          <h3>4.2　四证闭环：为什么 17 个月才走到收费</h3>
+          <p>
+            TC 只证明"设计是安全的"，PC 证明"能稳定地造出符合设计的产品"，AC 证明"这一架是合格的"，OC 才证明"这家公司有资格载客运营"。四证缺一不可，且不能并行跳过。从 TC（2023-10）到 OC（2025-03）用了 17 个月，这段时间里亿航有飞机、有订单，却<strong>没有收一分钱的载客票款</strong>——这是理解其财务曲线的前提。
+          </p>
+          <h3>4.3　"用运行限制换审定速度"</h3>
+          <p>
+            把三件事放在一起看，中国先拿到证就不神秘了：<strong>监管意愿</strong>（低空经济被列为战略性新兴产业，局方愿意为创新产品开辟审定路径）、<strong>构型风险可控</strong>（多旋翼、低速、短航程、无倾转机构）、<strong>运行场景受限</strong>（隔离空域、200 m 以下、昼间、A 点起降、6 级风以下）。三者叠加，把"载人飞行"这个极高风险的问题，缩小成了"在受控条件下飞一个闭环"这个可管理的工程问题。
+          </p>
+          <p>
+            这套方法有效，但有三个代价。第一，<strong>场景被锁死</strong>：运行限制直接砍掉了通勤、夜航、复杂气象等高价值场景。第二，<strong>国际互认困难</strong>：EASA 与 FAA 不会自动承认中国专用条件下的 TC，出海只能靠双边协议、试验许可与"监管沙盒"（巴西 ANAC 的 CAVE、泰国的 AAM 沙盒、香港的"监管沙盒 X"）。第三，<strong>标准演进的不确定性</strong>：当局方从"一事一议"转向分类管理，早期取证机型反而可能面临补充审定。
+          </p>
+          <div class="keytake">
+            <h4>制度判断</h4>
+            <p>全球首证证明的是中国民航局与亿航共同完成了一次"从零写标准"的制度创新，而不是证明 EH216-S 在性能或经济性上领先。把制度能力误读为产品竞争力，是过去三年行业里最普遍的一次认知错位。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= 05 ======================= -->
+      <section class="sec" id="s05">
+        <div class="sec-head reveal">
+          <div class="sec-num">05 / USE CASES</div>
+          <div>
+            <h2 class="sec-title">五个场景，只有一个跑通了<small>From "can fly" to "will pay"</small></h2>
+            <p class="sec-lede">
+              技术参数决定"能飞什么"，运行限制决定"能飞哪里"，而票价与利用率决定"谁愿意买"。把这三层叠在一起，EH216-S 的可用场景会急剧收敛。
+            </p>
+          </div>
+        </div>
+
+        <div class="matrix reveal" role="table" aria-label="场景适配度矩阵">
+          <div class="mh" role="columnheader">场景</div>
+          <div class="mh" role="columnheader">需求真实性</div>
+          <div class="mh" role="columnheader">技术适配</div>
+          <div class="mh" role="columnheader">单位经济</div>
+          <div class="mh" role="columnheader">监管可行</div>
+
+          <div class="mr" role="rowheader">景区空中游览</div>
+          <div role="cell"><span class="cell-score" data-score="5" title="已有真实售票与客流"></span></div>
+          <div role="cell"><span class="cell-score" data-score="5" title="30 km / 25 min 恰好匹配 3–5 分钟体验航线"></span></div>
+          <div role="cell"><span class="cell-score" data-score="3" title="票价 299 元，需补贴或高客流才能覆盖折旧"></span></div>
+          <div role="cell"><span class="cell-score" data-score="5" title="A 点起降、昼间、隔离空域，与现有 OC 完全吻合"></span></div>
+
+          <div class="mr" role="rowheader">城市通勤 / 空中出租</div>
+          <div role="cell"><span class="cell-score" data-score="3" title="需求存在但支付意愿未验证"></span></div>
+          <div role="cell"><span class="cell-score" data-score="2" title="30 km 航程无法覆盖跨城通勤，200 m 限高限制航线"></span></div>
+          <div role="cell"><span class="cell-score" data-score="2" title="需要高密度起降点与高频次，当前无法支撑"></span></div>
+          <div role="cell"><span class="cell-score" data-score="2" title="需融合空域、夜间运行与更复杂的气象标准"></span></div>
+
+          <div class="mr" role="rowheader">医疗急救 / 器官转运</div>
+          <div role="cell"><span class="cell-score" data-score="4" title="时间价值高，支付方为医院/政府"></span></div>
+          <div role="cell"><span class="cell-score" data-score="3" title="载荷 220 kg 可载患者，但舱内无医疗设备接口"></span></div>
+          <div role="cell"><span class="cell-score" data-score="4" title="单次价值高，对票价不敏感"></span></div>
+          <div role="cell"><span class="cell-score" data-score="3" title="需 24 小时待命与夜间运行资质，当前不具备"></span></div>
+
+          <div class="mr" role="rowheader">高层建筑消防（EH216-F）</div>
+          <div role="cell"><span class="cell-score" data-score="4" title="超高层灭火是真实痛点"></span></div>
+          <div role="cell"><span class="cell-score" data-score="4" title="150 L 泡沫 + 6 枚灭火弹，600 m 作业高度"></span></div>
+          <div role="cell"><span class="cell-score" data-score="3" title="政府采购逻辑成立，但单价与维护成本高"></span></div>
+          <div role="cell"><span class="cell-score" data-score="4" title="不载人，按作业类无人机管理，门槛低得多"></span></div>
+
+          <div class="mr" role="rowheader">支线物流（EH216-L）</div>
+          <div role="cell"><span class="cell-score" data-score="3" title="需求真实但已被大量货运无人机覆盖"></span></div>
+          <div role="cell"><span class="cell-score" data-score="3" title="载荷与航程可用，但单位成本高于多旋翼货运机"></span></div>
+          <div role="cell"><span class="cell-score" data-score="2" title="与峰飞 V2000CG 等已取证机型正面竞争"></span></div>
+          <div role="cell"><span class="cell-score" data-score="4" title="货运适航与运行门槛显著低于载人"></span></div>
+        </div>
+        <p class="tbl-note reveal">评分说明：5 分为最优。评分为作者基于公开信息的判断（证据等级 C），依据包括票价、运行限制、载荷与竞争格局。</p>
+
+        <div class="prose reveal">
+          <h3>5.1　观光：把短板变成产品</h3>
+          <p>
+            景区观光之所以是唯一跑通的场景，恰恰因为它把 EH216-S 的所有短板都变成了优点：航程短？体验航线本来只需要 3–5 分钟；飞得低？低空才能看清风景；噪声大？景区不在乎；不能夜间飞？景区白天营业。合肥骆岗公园的定价是 299 元/人飞 3.5 分钟<sup class="ref"><a href="#r19">19</a></sup>，广州同价，早期还出现过 216 元的早鸟票<sup class="ref"><a href="#r15">15</a></sup>。
+          </p>
+          <p>
+            但这门生意的规模由客流决定，而不是由飞机决定。合肥基地部署 4 架、日均约 14 个架次（全基地）<sup class="ref"><a href="#r17">17</a></sup>，折算到单机每天 3–4 个架次；按 2 人座、299 元计，单机日票款不足 2,400 元。<strong>它更像一台会飞的摩天轮，而不是交通工具。</strong>
+          </p>
+
+          <h3>5.2　通勤：被 200 米限高与 30 公里航程同时否决</h3>
+          <p>
+            城市空中出租车的商业假设是"用时间换钱"：避开地面拥堵，把 60 分钟车程压缩到 15 分钟。EH216-S 无法满足这个假设——30 km 航程扣除预留后实际可用约 25 km，200 m 的对地限高又把它压在楼宇之间，无法规划跨越江河或沿着城市走廊的航线。更现实的问题是起降点：一个城市需要数十个垂直起降场才能形成网络，而目前每个运营点只有 1–4 架飞机。
+          </p>
+
+          <h3>5.3　急救、消防与物流：更性感的想象，更冷静的门槛</h3>
+          <p>
+            医疗转运的单位价值最高，但需要 24 小时待命、夜间运行资质与机载医疗设备接口，这三项当前都不具备。高层消防（EH216-F）反而是被低估的方向：不载人，按作业类无人机管理，150 L 泡沫与 6 枚灭火弹足以应对超高层初期火情，北京房山的应急消防基地已于 2025 年底下线首架。物流（EH216-L）则要面对峰飞 V2000CG 这类已取得型号合格证的货运机型，正面竞争下并无优势。
+          </p>
+          <p>
+            结论很清晰：<strong>短期内 EH216-S 的商业化半径，等于"景区半径"。</strong>任何把它当作城市通勤工具来估值的模型，都会高估十年，低估一年。
+          </p>
+        </div>
+      </section>
+
+      <!-- ======================= 06 ======================= -->
+      <section class="sec" id="s06">
+        <div class="sec-head reveal">
+          <div class="sec-num">06 / UNIT ECONOMICS</div>
+          <div>
+            <h2 class="sec-title">299 元，能撑起一门生意吗<small>Fare, utilisation and the payback trap</small></h2>
+            <p class="sec-lede">
+              把票价、架次、折旧与补贴放进同一张表，答案会变得非常具体：在什么条件下亏现金，在什么条件下能算得过来，以及为什么现实恰好落在亏的那一侧。
+            </p>
+          </div>
+        </div>
+
+        <div class="prose reveal">
+          <p>
+            一架 EH216-S 的官方指导价是 239 万元（2024 年 4 月起）<sup class="ref"><a href="#r16">16</a></sup>，直播间曾以 199 万元成交。买回去之后，它每天能产生多少收入，取决于三个变量：票价、日均架次、以及地方政府是否按架次给补贴。前两个由市场决定，第三个由政策决定。
+          </p>
+          <p>
+            成本侧同样由三块构成：<strong>折旧</strong>（239 万元按 8 年直线折旧，约 29.9 万元/年）、<strong>固定运营成本</strong>（机组与地勤、保险、维保、场地，行业经验值约 60 万元/年，属估算）、<strong>变动成本</strong>（电费与耗材，每架次不足 10 元，可忽略）。于是单机年成本约 90 万元，这是一个相当硬的数字。
+          </p>
+        </div>
+
+        <div class="calc reveal">
+          <div class="calc-head">
+            <h4>交互模型 02　单机单位经济</h4>
+            <span>默认值取自公开票价与合肥实际运营强度</span>
+          </div>
+          <div class="calc-body">
+            <div class="calc-inputs">
+              <div class="field">
+                <label for="ecoFare">票价 <b><span id="ecoFareVal">299</span> 元/人</b></label>
+                <input type="range" id="ecoFare" min="99" max="799" step="10" value="299">
+              </div>
+              <div class="field">
+                <label for="ecoSubsidy">地方补贴 <b><span id="ecoSubsidyVal">200</span> 元/人</b></label>
+                <span class="hint">部分试点城市按架次给予 100–300 元/人的补贴</span>
+                <input type="range" id="ecoSubsidy" min="0" max="300" step="10" value="200">
+              </div>
+              <div class="field">
+                <label for="ecoSorties">日均架次 <b><span id="ecoSortiesVal">4</span> 架次</b></label>
+                <span class="hint">合肥基地 4 架、全基地日均约 14 架次，折合单机 3–4 架次</span>
+                <input type="range" id="ecoSorties" min="1" max="12" step="1" value="4">
+              </div>
+              <div class="field">
+                <label for="ecoPax">单架次载客 <b><span id="ecoPaxVal">2</span> 人</b></label>
+                <input type="range" id="ecoPax" min="1" max="2" step="1" value="2">
+              </div>
+              <div class="field">
+                <label for="ecoDays">年运营天数 <b><span id="ecoDaysVal">300</span> 天</b></label>
+                <input type="range" id="ecoDays" min="150" max="330" step="10" value="300">
+              </div>
+              <div class="field">
+                <label for="ecoPrice">单机购置价 <b><span id="ecoPriceVal">239</span> 万元</b></label>
+                <input type="range" id="ecoPrice" min="150" max="300" step="1" value="239">
+              </div>
+              <div class="field">
+                <label for="ecoFixed">年固定成本 <b><span id="ecoFixedVal">60</span> 万元</b></label>
+                <span class="hint">机组、地勤、保险、维保与场地（估算）</span>
+                <input type="range" id="ecoFixed" min="20" max="150" step="5" value="60">
+              </div>
+              <div class="field">
+                <label for="ecoYears">折旧年限 <b><span id="ecoYearsVal">8</span> 年</b></label>
+                <input type="range" id="ecoYears" min="5" max="12" step="1" value="8">
+              </div>
+            </div>
+            <div class="calc-out">
+              <p class="out-title">Model output / 单机 · 年</p>
+              <div class="out-grid">
+                <div class="out-item"><b id="ecoRev">120</b><span>年收入 / 万元</span></div>
+                <div class="out-item"><b id="ecoCost">90</b><span>年成本 / 万元</span></div>
+                <div class="out-item"><b id="ecoGross" class="is-good">+30</b><span>年毛利 / 万元</span></div>
+                <div class="out-item"><b id="ecoMargin">25%</b><span>毛利率</span></div>
+                <div class="out-item"><b id="ecoBE">3.0</b><span>盈亏平衡架次 / 日</span></div>
+                <div class="out-item"><b id="ecoPayback">8.0</b><span>静态回收期 / 年</span></div>
+              </div>
+              <p class="out-note" id="ecoVerdict">
+                毛利为正，但回收期超过 8 年——接近甚至超过航空器经济寿命，纯市场化投资缺乏吸引力。
+              </p>
+              <p class="out-note">
+                其中补贴占收入 <b id="ecoSubShare">40%</b>。把这一项调到 0，模型会立刻变成负现金流——这就是"政策市"的含义。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <figure class="figure reveal">
+          <div class="figure-head">
+            <h4>图 1　回收期对日均架次的敏感性</h4>
+            <span>SENSITIVITY / 年</span>
+          </div>
+          <div id="chartEco" style="min-height:240px"></div>
+          <figcaption>
+            横轴为单机日均架次，纵轴为静态回收期。<b>曲线的形状比数字更重要</b>：从 4 架次提升到 8 架次，回收期从 8 年降到 2 年以内；但从 8 架次再往上，边际改善迅速衰减。这说明运营层面的胜负手只有一个——把日架次做上去，而这恰好是当前最做不到的事。
+          </figcaption>
+        </figure>
+
+        <div class="prose reveal">
+          <h3>6.1　补贴是这台机器唯一的"利润来源"</h3>
+          <p>
+            把补贴设为 0，默认参数（4 架次、300 天、2 座）下年收入 71.8 万元、成本 90 万元，单机年亏 18 万元。把补贴设回 200 元/人，年收入跳到 119.8 万元，毛利 30 万元，回收期 8 年——刚好等于折旧年限。<strong>所谓"跑通"，指的是把账做到不亏现金，而不是赚回资本。</strong>
+          </p>
+          <p>
+            这也解释了买家结构：地方国资平台、文旅集团、通航公司。它们买的不是一台能赚钱的机器，而是一张"低空经济示范城市"的入场券——飞机是道具，航线是展台，补贴是预算科目。2025 年末应收账款升至 2.10 亿元<sup class="ref"><a href="#r11">11</a></sup>，占当年收入的 41%，正是这种采购结构的财务投影。
+          </p>
+        </div>
+
+        <div class="table-wrap reveal">
+          <table>
+            <caption>表 2　不同补贴与利用率下的静态回收期（年）——票价 299 元、2 座、300 天、239 万元购置、60 万元固定成本、8 年折旧</caption>
+            <thead>
+              <tr><th>日均架次</th><th class="num">补贴 0 元</th><th class="num">补贴 200 元</th><th class="num">补贴 300 元</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>3 架次</th><td class="num hi">亏损 36 万</td><td class="num">≈ 持平</td><td class="num">13.3</td></tr>
+              <tr><th>4 架次（现状）</th><td class="num hi">亏损 18 万</td><td class="num">8.0</td><td class="num">4.4</td></tr>
+              <tr><th>6 架次</th><td class="num">13.4</td><td class="num">2.7</td><td class="num">1.9</td></tr>
+              <tr><th>8 架次</th><td class="num">4.5</td><td class="num">1.6</td><td class="num">1.2</td></tr>
+              <tr><th>10 架次</th><td class="num">2.7</td><td class="num">1.1</td><td class="num">0.9</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tbl-note reveal">读法：表格中每一个"好看"的数字，都建立在 6 架次以上的日均利用率之上；而现实是 3–4 架次。券商研报中"日 20 架次、回收期 2.7 年"的测算，需要 7 小时纯飞行时间加上无缝电池轮换，在单机单组电池、充电 120 分钟的条件下不可能实现。</p>
+
+        <div class="keytake reveal">
+          <h4>经济判断</h4>
+          <p>在 299 元票价与 3–4 架次的现实利用率下，EH216-S 的单机运营无法同时覆盖折旧与资本回报；加入 200 元/人的地方补贴后勉强越过盈亏平衡线，回收期约 8 年，等于把整机寿命全部用来回本。这不是"规模还不够大"的问题，而是"单位时间产出太低"的结构性问题——一架每天只能飞 80 分钟的飞机，很难摊销 239 万元的资本开支。</p>
+        </div>
+      </section>
+
+      <!-- ======================= 07 ======================= -->
+      <section class="sec" id="s07">
+        <div class="sec-head reveal">
+          <div class="sec-num">07 / MARKET</div>
+          <div>
+            <h2 class="sec-title">从 9 亿指引，到撤回指引<small>Deliveries, revenue and the guidance gap</small></h2>
+            <p class="sec-lede">
+              2025 年 3 月，管理层给出 2025 年约 9 亿元的收入指引<sup class="ref"><a href="#r32">32</a></sup>；一年后实际 5.1 亿元。2026 年再给 6 亿元，8 月撤回且不再提供替代数字<sup class="ref"><a href="#r13">13</a></sup>。两次指引、两次落空，这条曲线比任何分析都诚实。
+            </p>
+          </div>
+        </div>
+
+        <figure class="figure reveal">
+          <div class="figure-head">
+            <h4>图 2　交付量与营业收入（2023–2026 H1）</h4>
+            <span>UNITS &amp; REVENUE / RMB 100M</span>
+          </div>
+          <div class="legend">
+            <span><i style="background:#1d3a52"></i>EH216 系列交付</span>
+            <span><i style="background:#a98b4f"></i>VT35 交付</span>
+            <span><i style="background:#b4502f"></i>营业收入（右轴）</span>
+          </div>
+          <div id="chartCombo" style="min-height:320px"></div>
+          <figcaption>
+            2024 年是交付量的爆发年（216 架，+315%），收入增长 288.5%；2025 年交付量仅增 2%，收入增长 11.7%——<b>增长已经失速</b>。2026 年上半年交付 40 架、收入 1.035 亿元，同比下滑约 26%。图中 2026 年只有半年数据，不可与全年直接比较。
+          </figcaption>
+        </figure>
+
+        <div class="prose reveal">
+          <p>
+            把四年数据连起来看，会发现一个清晰的转折：2023 年是"取证红利"的起点，2024 年是渠道备货与示范采购的高峰，2025 年增速掉到个位数，2026 年直接转负。<strong>这不是需求消失，而是需求的性质暴露了</strong>——此前的采购主要来自地方国资与文旅集团的示范项目，一次性、政策驱动、可延迟；当监管收紧、审批放缓，这些订单就同时按下了暂停键。
+          </p>
+        </div>
+
+        <div class="cards reveal">
+          <div class="card">
+            <div class="n">2023</div>
+            <h4>52 架 / 1.17 亿元</h4>
+            <p>TC 与首架 AC 落地，收入同比增长 165%，净亏 3.02 亿元<sup class="ref"><a href="#r10">10</a></sup>。亏损主要是审定与产能投入。</p>
+          </div>
+          <div class="card">
+            <div class="n">2024</div>
+            <h4>216 架 / 4.56 亿元</h4>
+            <p>PC 颁发、产能释放，交付量增长 315%，收入增长 288.5%<sup class="ref"><a href="#r9">9</a></sup>，净亏收窄至 2.30 亿元。</p>
+          </div>
+          <div class="card">
+            <div class="n">2025</div>
+            <h4>221 架 / 5.10 亿元</h4>
+            <p>OC 落地、商业运营启动，但交付量仅增 2%，收入增 11.7%，净亏 2.31 亿元，指引落空 43%。</p>
+          </div>
+          <div class="card">
+            <div class="n">2026 H1</div>
+            <h4>40 架 / 1.04 亿元</h4>
+            <p>Q1 交付跌至 4 架，Q2 回升至 36 架；上半年收入同比 −25.7%，净亏 2.54 亿元，全年指引撤回<sup class="ref"><a href="#r12">12</a></sup>。</p>
+          </div>
+        </div>
+
+        <div class="prose reveal">
+          <h3>7.1　收入结构的隐忧</h3>
+          <p>
+            2025 年航空器销售 3.95 亿元，占收入 77.6%；其余约 1.14 亿元来自无人机编队表演（空中媒体）。到了 2026 年第一季度，表演业务占收入约 40%——<strong>当主业失速，是"副业"在撑住报表</strong>。编队表演毛利率约 50%，现金流好，但它与"空中出租车"的叙事几乎没有关系。
+          </p>
+          <h3>7.2　现金、股价与组织</h3>
+          <p>
+            2025 年末现金及短期投资 11.3 亿元，2026 年 3 月末降至 10.27 亿元；按上半年约 2.5 亿元的净亏速度，现有现金大约还能支撑两年。截至 2026 年 8 月 28 日，股价 4.51 美元、市值 3.42 亿美元，较 2021 年 129.8 美元的高点跌去约 96%，2026 年内跌幅 64.6%。2026 年公司多轮传出裁员，官方口径为"组织效能优化"。
+          </p>
+          <h3>7.3　出海：被国内需求逼出来的第二战场</h3>
+          <p>
+            截至 2026 年，EH216 系列已在 23 个国家和地区飞行<sup class="ref"><a href="#r18">18</a></sup>。泰国被设为区域枢纽、首批部署 25 架并规划 10 条以上载客航线；香港"监管沙盒 X"首批试点、2026 年 8 月在数码港完成公开首飞；斯里兰卡加入"全球快速通道计划"，目标 4 个月内实现沙盒商业化。这套打法的本质，是把"中国取证 + 中国运营"打包成可出口的制度产品——<strong>既然国内窗口没打开，就把窗口搬到国外去</strong>。
+          </p>
+          <div class="note">
+            <span class="t">一个容易被忽略的数字</span>
+            云浮基地二期建成后年产能提升至 1,000 架，2025 年 9 月试产<sup class="ref"><a href="#r11">11</a></sup>。以 2025 年 221 架的交付量计算，<b>产能利用率约 22%</b>。产能不是瓶颈，订单转化才是。
+          </div>
+
+          <h3>7.4　万亿叙事与五亿现实</h3>
+          <p>
+            中国低空经济规模 2025 年约 8,592 亿元，2026 年预计突破 1 万亿元，2030 年达 2–2.5 万亿元<sup class="ref"><a href="#r24">24</a></sup>；摩根士丹利预测 2030 年全球 eVTOL 市场约 1.85 万亿元，中国约占 6,445 亿元。把亿航 2025 年 5.1 亿元收入放进这个分母，市占率约 0.05%。
+          </p>
+          <p>
+            这不是说市场空间不存在，而是说"万亿"是基础设施、制造、运营与服务加总的口径，与一家整机厂商的可及市场相差两个数量级。<strong>用万亿市场给一家 5 亿元收入的公司估值，是过去三年这个板块最典型的估值错配。</strong>真正应该问的是：在 6,445 亿元的 2030 年预测里，载人观光能占多少、亿航能拿多少、单机经济性是否支持这个份额。
+          </p>
+        </div>
+      </section>
+
+      <!-- ======================= 08 ======================= -->
+      <section class="sec" id="s08">
+        <div class="sec-head reveal">
+          <div class="sec-num">08 / COMPETITION</div>
+          <div>
+            <h2 class="sec-title">两条路线，两种时间表<small>Multicopter autonomy vs. winged piloted aircraft</small></h2>
+            <p class="sec-lede">
+              世界上只有两家公司真正把载人 eVTOL 推进到"收费载客"阶段：一家是亿航，另一家还在等 FAA。但资本市场给出的定价说明，先到不等于赢。
+            </p>
+          </div>
+        </div>
+
+        <figure class="figure reveal">
+          <div class="figure-head">
+            <h4>图 3　构型决定航程：主要载人 eVTOL 的航程—载客分布</h4>
+            <span>RANGE vs. SEATS</span>
+          </div>
+          <div class="legend">
+            <span><i style="background:#b4502f;border-radius:50%"></i>已取证</span>
+            <span><i style="background:#f4f1ea;border:1.5px solid #1d3a52;border-radius:50%"></i>在审 / 未取证</span>
+          </div>
+          <div id="chartScatter" style="min-height:360px"></div>
+          <figcaption>
+            横轴为设计航程，纵轴为载客人数。左上角是纯多旋翼的"短航程区"（EH216-S、VoloCity），右侧是复合翼与倾转旋翼的"长航程区"。<b>EH216-S 的位置不是偶然</b>：在同样的电池技术下，构型几乎单独决定了航程量级。图中数据为厂方公布的设计值，实际运营航程通常更低。
+          </figcaption>
+        </figure>
+
+        <div class="table-wrap reveal">
+          <table>
+            <caption>表 3　主要载人 eVTOL 机型对比（数据为厂方公布口径，截至 2026 年 11 月）</caption>
+            <thead>
+              <tr><th>机型</th><th>构型</th><th class="num">载客</th><th class="num">航程</th><th>适航 / 运营状态</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>亿航 EH216-S</th><td>多旋翼 8 轴 16 桨</td><td class="num">2</td><td class="num">30 km</td><td><span class="mk mk-y">已取证</span>　TC/PC/AC/OC，中国商业运营</td></tr>
+              <tr><th>Joby S4</th><td>倾转旋翼 6 桨</td><td class="num">4 + 1 飞行员</td><td class="num">161 km</td><td><span class="mk mk-p">认证后期</span>　FAA，目标 2026 年载客<sup class="ref"><a href="#r27">27</a></sup></td></tr>
+              <tr><th>Archer Midnight</th><td>倾转旋翼 12 桨</td><td class="num">4 + 1 飞行员</td><td class="num">100 km</td><td><span class="mk mk-p">认证后期</span>　FAA，目标 2026 年载客<sup class="ref"><a href="#r28">28</a></sup></td></tr>
+              <tr><th>Volocopter VoloCity</th><td>多旋翼 18 桨</td><td class="num">2</td><td class="num">35 km</td><td><span class="mk mk-n">已易主</span>　2025 年被 Diamond Aircraft 收购</td></tr>
+              <tr><th>峰飞 V2000CG</th><td>复合翼（货运）</td><td class="num">—</td><td class="num">200 km</td><td><span class="mk mk-y">已取证</span>　TC/PC/AC，2026 年获印尼 VTC</td></tr>
+              <tr><th>小鹏汇天 陆地航母</th><td>分体式六轴六桨</td><td class="num">2</td><td class="num">未公布</td><td><span class="mk mk-p">在审</span>　TC 预计 2026 下半年，订单逾 7,000 台</td></tr>
+              <tr><th>沃飞长空 AE200</th><td>倾转旋翼</td><td class="num">5</td><td class="num">200 km</td><td><span class="mk mk-p">在审</span>　TC 预计 2026 下半年至 2027 年</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="prose reveal">
+          <h3>8.1　路线 A：先取证，再找场景</h3>
+          <p>
+            亿航与 Volocopter 走的是同一条路——无人驾驶、多旋翼、短航程、先拿证。这条路线的优点是"能先飞起来"，缺点是飞起来之后发现可去的地方很少。Volocopter 的结局是一个警告：它在 2025 年被 Diamond Aircraft 以约 1,000 万欧元收购<sup class="ref"><a href="#r26">26</a></sup>，而它此前的融资超过 6 亿美元。<strong>先取证并不能保证活下去。</strong>
+          </p>
+          <h3>8.2　路线 B：先做大 TAM，再慢慢取证</h3>
+          <p>
+            Joby、Archer 选择了有人驾驶的倾转旋翼：4 名乘客、160 km 航程、300 km/h 速度，直接对标"城市间空中出租车"。代价是取证更慢、更贵、更难——但它们讲的故事是"每年数千亿美元的出行市场"，而亿航的故事是"景区空中观光"。资本市场用市值投票（2026 年 11 月）：Joby 约 90 亿美元，Archer 与 Beta 各约 40 亿美元，亿航约 1.75 亿美元<sup class="ref"><a href="#r33">33</a></sup>。
+          </p>
+          <div class="note">
+            <span class="t">一个残酷的对照</span>
+          <p>
+            亿航的市值（约 1.75 亿美元）仅略高于其账面现金（约 10 亿元人民币）——<b>市场几乎没给它"飞行器业务"任何溢价</b>。这个信号很明确：它不怀疑 EH216-S 能飞，它怀疑这门生意能不能长大。
+          </p>
+          </div>
+          <h3>8.3　国内竞争：窗口期只有两三年</h3>
+          <p>
+            2026–2027 年是中国载人 eVTOL 取证最密集的两年：峰飞 V2000CG 已在货运端跑通并拿到海外型号认可<sup class="ref"><a href="#r25">25</a></sup>，小鹏汇天订单逾 7,000 台<sup class="ref"><a href="#r29">29</a></sup>、万辆级工厂试产、TC 预计 2026 下半年，沃飞长空 AE200 与时的科技 E20 紧随其后。这些产品航程更长、座位更多，一旦取证，会直接分流"展陈类采购"——而这正是 EH216-S 目前的主要收入来源。
+          </p>
+          <p>
+            亿航的对冲是 VT35：双座串列翼、8 个升力桨加尾部推进、航程 200 km、最大起飞重量 950 kg，定价 650 万元<sup class="ref"><a href="#r20">20</a></sup>，目前适航取证中、2025 年第四季度已开始交付。如果 VT35 能在 2027 年前拿证，亿航才有第二条增长曲线；如果拿不到，它就只是一家"把观光飞机器卖给了地方政府"的公司。
+          </p>
+        </div>
+      </section>
+
+      <!-- ======================= 09 ======================= -->
+      <section class="sec" id="s09">
+        <div class="sec-head reveal">
+          <div class="sec-num">09 / RISK</div>
+          <div>
+            <h2 class="sec-title">七个风险，一个共同点<small>What could break the thesis</small></h2>
+            <p class="sec-lede">
+              把风险逐条列出来会发现，它们几乎都不在飞机上。EH216-S 的工程问题基本被解决了，剩下的问题分布在空域、财政、监管节奏与公众情绪里。
+            </p>
+          </div>
+        </div>
+
+        <div class="risks reveal">
+          <div class="risk">
+            <div class="risk-id">R1</div>
+            <div class="risk-body"><h4>单位经济无法自我维持</h4><p>299 元票价、3–4 架次日均架次下，单机年亏约 18 万元；靠 200 元/人补贴才勉强持平，回收期 8 年。补贴退坡即失血。</p></div>
+            <div class="risk-level lv-hi"><b>高</b>结构性</div>
+          </div>
+          <div class="risk">
+            <div class="risk-id">R2</div>
+            <div class="risk-body"><h4>监管节奏突然收紧</h4><p>2026 年 3 月民航局施行新的型号审定职责优化方案<sup class="ref"><a href="#r23">23</a></sup>，5 月连发 8 份适航程序修订稿；6 月北京轻型飞机撞楼事件后<sup class="ref"><a href="#r18">18</a></sup>，全国载人飞行审批明显放缓。</p></div>
+            <div class="risk-level lv-hi"><b>高</b>外部</div>
+          </div>
+          <div class="risk">
+            <div class="risk-id">R3</div>
+            <div class="risk-body"><h4>需求是"示范"，不是"消费"</h4><p>买家以地方国资与文旅集团为主，最大客户占收入 24%；复购率、退票率、淡季客流均未披露。示范项目天然一次性。</p></div>
+            <div class="risk-level lv-hi"><b>高</b>结构性</div>
+          </div>
+          <div class="risk">
+            <div class="risk-id">R4</div>
+            <div class="risk-body"><h4>安全记录的"分母"太小</h4><p>官方口径为零事故，但累计载人架次仅数万量级，且无机身降落伞。任何一次致命事故都可能引发全行业停飞，尾部风险远大于期望损失。</p></div>
+            <div class="risk-level lv-mid"><b>中高</b>尾部</div>
+          </div>
+          <div class="risk">
+            <div class="risk-id">R5</div>
+            <div class="risk-body"><h4>回款与客户集中</h4><p>2025 年末应收账款 2.10 亿元，占当年收入 41%；客户以地方财政为最终信用，账期与坏账风险随地方财政收紧而上升。</p></div>
+            <div class="risk-level lv-mid"><b>中</b>财务</div>
+          </div>
+          <div class="risk">
+            <div class="risk-id">R6</div>
+            <div class="risk-body"><h4>资本与组织收缩</h4><p>2026 年内股价下跌 64.6%，现金约 10.3 亿元，按当前亏损速度可支撑约两年；裁员传闻与"组织效能优化"并存，工程团队稳定性存疑。</p></div>
+            <div class="risk-level lv-mid"><b>中</b>财务</div>
+          </div>
+          <div class="risk">
+            <div class="risk-id">R7</div>
+            <div class="risk-body"><h4>技术路线被替代</h4><p>复合翼与倾转旋翼机型在 2027 年前后密集取证，航程 200 km、座位 4–5，会同时覆盖观光与通勤；EH216-S 的"先发"优势将收窄为"便宜"。</p></div>
+            <div class="risk-level lv-mid"><b>中</b>竞争</div>
+          </div>
+        </div>
+
+        <div class="table-wrap reveal">
+          <table>
+            <caption>表 4　2028 年情景推演（作者判断，证据等级 C）</caption>
+            <thead>
+              <tr><th>情景</th><th class="num">年交付</th><th class="num">运营城市</th><th class="num">单机日架次</th><th class="num">均价</th><th>关键前提</th><th class="num">概率</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>乐观</th><td class="num">600 架</td><td class="num">30</td><td class="num">8</td><td class="num">399 元</td><td>放开 A–B 点对点与夜航，VT35 按期取证，补贴延续</td><td class="num">20%</td></tr>
+              <tr><th>基准</th><td class="num">350 架</td><td class="num">15</td><td class="num">4–5</td><td class="num">299 元</td><td>维持观光为主，少量通勤试点，监管温和收紧</td><td class="num">55%</td></tr>
+              <tr><th>悲观</th><td class="num">150 架</td><td class="num">8</td><td class="num">2–3</td><td class="num">199 元</td><td>补贴退坡、事故后全面停飞整顿、竞品分流订单</td><td class="num">25%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tbl-note reveal">基准情景对应 2025–2028 年交付量年复合增速约 16%，收入约 7–8 亿元；乐观情景接近公司 2025 年初给出的 9 亿元指引，但晚三年实现。</p>
+      </section>
+
+      <!-- ======================= 10 ======================= -->
+      <section class="sec" id="s10">
+        <div class="sec-head reveal">
+          <div class="sec-num">10 / CONCLUSION</div>
+          <div>
+            <h2 class="sec-title">回到作业题目的三个问题<small>Feasibility, scenarios, market</small></h2>
+            <p class="sec-lede">
+              课程要求对"技术可行性、应用场景、市场可行性"做深度分析。前两个问题，EH216-S 给了肯定答案；第三个问题，它给的是一个正在书写中的答案。
+            </p>
+          </div>
+        </div>
+
+        <div class="table-wrap reveal">
+          <table>
+            <caption>表 5　三个问题的结论</caption>
+            <thead>
+              <tr><th>维度</th><th>结论</th><th>一句话依据</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>技术可行性</th><td><span class="verdict hi">成立（受限）</span></td><td>四证齐全、25 分钟 / 30 km 的指标在 620 kg 级多旋翼中已属极限，安全冗余设计完整；但运行边界很窄。</td></tr>
+              <tr><th>应用场景</th><td><span class="verdict mid">真实但狭窄</span></td><td>只有景区观光形成了可复制的收费闭环；通勤、夜航、复杂气象均被 200 m 限高与运行限制排除。</td></tr>
+              <tr><th>市场可行性</th><td><span class="verdict lo">尚未闭环</span></td><td>单机年亏 18 万元（无补贴），依赖 200 元/人补贴维持；2026 年收入下滑 26%、指引撤回。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="prose reveal">
+          <p class="lede">
+            如果把这三条结论压缩成一句话：<strong>EH216-S 是一台被证明可以安全飞行的机器，还不是一门被证明可以赚钱的生意。</strong>这不意味着它失败，而意味着它处在技术成熟度曲线中最难的一段——从"能演示"到"能运营"，中间隔着的不是工程，而是制度与经济。
+          </p>
+          <h3>10.1　对不同主体的建议</h3>
+          <p>
+            <strong>对运营商：</strong>不要按"空中出租车"的模型做投资测算，按"景区特种设备"的模型做。核心指标不是航程，而是日均架次、客流转化率与补贴的持续性。在补贴退坡前，把票价与产品组合（夜游、包机、求婚、广告）做出溢价。
+          </p>
+          <p>
+            <strong>对地方政府：</strong>把采购决策从"买飞机"转向"买运营能力"。一架飞机能否产生现金流，取决于航线审批、起降点、客流组织与安全监管，而不取决于机身。先建运营体系，再扩机队。
+          </p>
+          <p>
+            <strong>对投资者：</strong>把"取证进度"从估值变量里删掉，换成"单机日架次"与"补贴占收入比"。前者决定收入上限，后者决定利润的真实性。EH216-S 的教训是：全球首证可以在一天内改变行业叙事，却改变不了一架飞机每天只能飞 80 分钟的事实。
+          </p>
+          <p>
+            <strong>对后来者：</strong>亿航用四年时间证明了"专用条件路径"可行，也证明了这条路径的天花板。下一批产品（VT35、V2000EM、AE200、陆地航母）如果要跳出观光场景，必须在构型上做出取舍——用复合翼换航程，用有人驾驶换审定复杂度，用更高的单价换更长的回本周期。
+          </p>
+
+          <h3>10.2　方法论反思：公开数据能做多深的尽调</h3>
+          <p>
+            这次调研最有价值的收获，不是关于亿航的结论，而是一套可迁移的方法：<strong>把公司叙事拆成可验证的物理量与会计量</strong>。当一家公司说"全球领先"，去看它的审定基础与安全目标；当它说"商业运营"，去看票价、架次与补贴；当它说"订单饱满"，去看应收账款与客户集中度。三张表交叉，叙事就会露出它真实的样子。
+          </p>
+          <p>
+            局限也同样明显：没有一手访谈，就无法判断管理层的真实判断；没有运营数据，就只能用行业经验值估算成本；没有空域审批的细节，就无法量化监管风险。这些缺口，是下一阶段调研应该补上的。
+          </p>
+        </div>
+
+        <div class="keytake reveal">
+          <h4>最后一句</h4>
+          <p>EH216-S 已经飞起来了。但它还没有飞进任何人的日常——它飞在景区的上空，飞在沙盒的边界里，飞在政策的窗口期。真正决定"空中出租车"何时到来的，不是下一张型号合格证，而是下一班愿意花 299 元、并且真的能买到票的乘客。</p>
+        </div>
+      </section>
+
+      <!-- ======================= 11 ======================= -->
+      <section class="sec" id="s11">
+        <div class="sec-head reveal">
+          <div class="sec-num">11 / APPENDIX</div>
+          <div>
+            <h2 class="sec-title">附录：数据、术语与文献<small>Data, glossary &amp; references</small></h2>
+            <p class="sec-lede">所有可复算的原始数据、术语解释与引用来源。图表中的估算值均注明假设，读者可据此复核。</p>
+          </div>
+        </div>
+
+        <div class="prose reveal">
+          <h3>附表 A　财务与交付</h3>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <caption>亿航智能 2023–2026 H1 关键财务与交付数据（人民币，来源：公司财报<sup class="ref"><a href="#r14">14</a></sup>）</caption>
+            <thead>
+              <tr><th>期间</th><th class="num">收入 / 亿元</th><th class="num">同比</th><th class="num">净亏损 / 亿元</th><th class="num">交付 / 架</th><th class="num">毛利率</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>2023</th><td class="num">1.174</td><td class="num">+165.0%</td><td class="num">3.023</td><td class="num">52</td><td class="num">64.1%</td></tr>
+              <tr><th>2024</th><td class="num">4.562</td><td class="num">+288.5%</td><td class="num">2.300</td><td class="num">216</td><td class="num">61.4%</td></tr>
+              <tr><th>2025</th><td class="num">5.095</td><td class="num">+11.7%</td><td class="num">2.310</td><td class="num">221</td><td class="num">62.0%</td></tr>
+              <tr><th>2026 H1</th><td class="num">1.035</td><td class="num">−25.7%</td><td class="num">2.540</td><td class="num">40</td><td class="num">≈61.8%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="two-col reveal">
+          <div>
+            <h4>附表 B　术语</h4>
+            <ul>
+              <li><strong>eVTOL</strong>：电动垂直起降航空器。</li>
+              <li><strong>TC</strong>：型号合格证，证明设计符合适航要求。</li>
+              <li><strong>PC</strong>：生产许可证，证明具备批量生产能力。</li>
+              <li><strong>AC</strong>：标准适航证，证明单机可安全运行。</li>
+              <li><strong>OC</strong>：运营合格证，证明运营人具备载客资质。</li>
+              <li><strong>SC-21-002</strong>：民航局为 EH216-S 颁布的专用条件。</li>
+              <li><strong>SC-VTOL</strong>：EASA 的垂直起降航空器专用条件。</li>
+              <li><strong>DEP</strong>：分布式电推进，多电机多桨的冗余架构。</li>
+              <li><strong>AGL / MSL</strong>：对地高度 / 平均海平面高度。</li>
+              <li><strong>VNE</strong>：不可超越速度。</li>
+              <li><strong>升阻比</strong>：升力与阻力之比，决定巡航效率。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>复算说明</h4>
+            <ul>
+              <li>可用电量 = 能量密度 × 电池质量 × 75%（放电深度）。</li>
+              <li>航时 = 可用电量 ÷ 平均功率；航程 = 航时 × 巡航速度 × 0.85（预留）。</li>
+              <li>年收入 =（票价 + 补贴）× 载客 × 日均架次 × 年天数。</li>
+              <li>年成本 = 固定成本 + 购置价 ÷ 折旧年限。</li>
+              <li>静态回收期 = 购置价 ÷（年收入 − 年成本）。</li>
+              <li>模型未计入资金成本、残值、保险浮动与税费。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <h3 style="font-family:var(--serif);font-size:1.22rem;margin:2.4em 0 .8em;">参考文献</h3>
+          <ol class="refs">
+            <li id="r1">亿航智能. EH216-S 适航取证历程[EB/OL]. <a href="https://www.ehang.com/cn/ehang216s/airworthiness/" target="_blank" rel="noopener">ehang.com</a>.</li>
+            <li id="r2">中国民用航空局中南地区管理局. 中南局颁发全国首张载人无人机的生产许可证[EB/OL]. (2024-04-16). <a href="http://www.caac.gov.cn/PHONE/GLJ_PHONE/ZNGLJ/ZN_XWZX/202404/t20240416_223537.html" target="_blank" rel="noopener">caac.gov.cn</a>.</li>
+            <li id="r3">亿航智能. EH216-S 无人驾驶载人航空器系统获得中国民航局颁发的标准适航证，并交付给广州客户[EB/OL]. (2023-12-21). <a href="https://www.ehang.com/news/1022.html" target="_blank" rel="noopener">ehang.com/news/1022</a>.</li>
+            <li id="r4">科技日报. "空中公交"来了！首批民用无人驾驶航空器运营合格证颁发[EB/OL]. (2025-03-30). <a href="https://www.stdaily.com/web/gdxw/2025-03/30/content_317241.html" target="_blank" rel="noopener">stdaily.com</a>.</li>
+            <li id="r5">亿航智能. EH216-S 产品概览[EB/OL]. <a href="https://www.ehang.com/cn/ehang216s/" target="_blank" rel="noopener">ehang.com/cn/ehang216s</a>.</li>
+            <li id="r6">中国民用航空局. EH216-S 型无人驾驶航空器系统专用条件（SC-21-002）[S]. 2022-02.</li>
+            <li id="r7">The Vertical Flight Society. EHang EH216-S (production model)[EB/OL]. <a href="https://evtol.news/ehang-216" target="_blank" rel="noopener">evtol.news/ehang-216</a>.</li>
+            <li id="r8">EHang Holdings. EH216-S Type Certificate Data Sheet (TCDS)[Z]. 2023.</li>
+            <li id="r9">亿航智能. 2024 年第四季度及全年未经审计财务业绩[R]. 2025-03.</li>
+            <li id="r10">亿航智能. 2023 年第四季度及全年未经审计财务业绩[R]. 2024-03.</li>
+            <li id="r11">EHang Holdings. Fourth Quarter and Fiscal Year 2025 Financial Results, Exhibit 99.1[R]. 2026-03.</li>
+            <li id="r12">南方财经. 亿航智能 Q2 营收环比增 203%，载人商业运营仍差"临门一脚"[EB/OL]. (2026-08-31). <a href="https://m.sfccn.com/2026/8-31/wNMDE0NzNfMjIyNTkwNA.html" target="_blank" rel="noopener">sfccn.com</a>.</li>
+            <li id="r13">上海证券报. 亿航智能撤回 6 亿元收入指引 短期重心转向非载人业务与全球出海[EB/OL]. (2026-08-26). <a href="https://www.cnstock.com/commonDetail/775272" target="_blank" rel="noopener">cnstock.com</a>.</li>
+            <li id="r14">EHang Holdings. Second Quarter 2026 Financial Results, Exhibit 99.1[R]. 2026-08-25.</li>
+            <li id="r15">第一财经. 记者试飞全球首款商业化运营载人 eVTOL，景区购票百元左右[EB/OL]. <a href="https://www.yicai.com/video/102864481.html" target="_blank" rel="noopener">yicai.com</a>.</li>
+            <li id="r16">齐鲁晚报. "空中的士"网上开售 广东买家 199 万元拿下[EB/OL]. (2024-03). <a href="https://m.qlwb.com.cn/detail/23480249.html" target="_blank" rel="noopener">qlwb.com.cn</a>.</li>
+            <li id="r17">界面新闻. 亿航智能 2026 年一季度业绩与合肥运营情况[EB/OL]. (2026). <a href="https://www.jiemian.com/article/14723892.html" target="_blank" rel="noopener">jiemian.com</a>.</li>
+            <li id="r18">虎嗅. 亿航智能的 2026：交付、裁员与 23 国飞行[EB/OL]. (2026). <a href="https://www.huxiu.com/article/4897799.html" target="_blank" rel="noopener">huxiu.com</a>.</li>
+            <li id="r19">圆象低空产业观察. 合肥骆岗公园 EH216-S 载人飞行 299 元票价[EB/OL]. (2026-04). <a href="https://yuanxiangsky.com/N/2056.html" target="_blank" rel="noopener">yuanxiangsky.com</a>.</li>
+            <li id="r20">亿航智能. VT35 产品页[EB/OL]. <a href="https://www.ehang.com/cn/vt35/" target="_blank" rel="noopener">ehang.com/cn/vt35</a>.</li>
+            <li id="r21">亿航智能. 固态锂金属电池验证机完成 48 分钟试飞[EB/OL]. (2025). <a href="https://www.ehang.com/news/1136.html" target="_blank" rel="noopener">ehang.com/news/1136</a>.</li>
+            <li id="r22">Battery Design. EHang EH216-S eVTOL Battery[EB/OL]. <a href="https://www.batterydesign.net/ehang-eh216-s-evtol-battery/" target="_blank" rel="noopener">batterydesign.net</a>.</li>
+            <li id="r23">中国民用航空局. 新型航空器型号审定职责优化方案[Z]. 2026-03-01 施行.</li>
+            <li id="r24">赛迪顾问. 中国低空经济发展研究报告[R]. 2025–2026.</li>
+            <li id="r25">Airframer. AutoFlight V2000CG granted world's first eVTOL overseas type certificate[EB/OL]. (2026-06).</li>
+            <li id="r26">BSS. Volocopter acquired by Diamond Aircraft[EB/OL]. (2025-03).</li>
+            <li id="r27">Joby Aviation. S4 aircraft specifications[EB/OL]. <a href="https://www.jobyaviation.com/" target="_blank" rel="noopener">jobyaviation.com</a>.</li>
+            <li id="r28">Archer Aviation. Midnight specifications[EB/OL]. <a href="https://www.archer.com/" target="_blank" rel="noopener">archer.com</a>.</li>
+            <li id="r29">小鹏汇天. 陆地航母订单与取证进展[EB/OL]. (2026).</li>
+            <li id="r30">证券之星. EH216-S 安全目标口径解读[EB/OL]. (2026-06).</li>
+            <li id="r31">噪声实测报告（媒体转引）. EH216-S 悬停与巡航噪声测量[EB/OL]. (2025). <a href="http://mp.weixin.qq.com/s?__biz=MzIwMTU2OTcwNA==&mid=2649850097&amp;idx=1&amp;sn=2e405e0e929b137070986ad17d2ff24b" target="_blank" rel="noopener">mp.weixin.qq.com</a>.</li>
+            <li id="r32">证券时报. 亿航智能年度总收入均创历史新高 2025 财年总收入预计约 9 亿元[EB/OL]. (2025-03-12). <a href="https://www.stcn.com/article/detail/1578091.html" target="_blank" rel="noopener">stcn.com</a>.</li>
+            <li id="r33">StockAnalysis. EHang Holdings (EH) statistics &amp; market cap[EB/OL]. <a href="https://stockanalysis.com/stocks/eh/statistics/" target="_blank" rel="noopener">stockanalysis.com</a>.</li>
+          </ol>
+        </div>
+
+        <div class="note reveal" style="margin-top:34px">
+          <span class="t">作业声明</span>
+          本页面为《飞行汽车技术基础》课程作业，选题为"针对飞行汽车的某技术/产品的全方位调研与分析"。全部图表由作者使用原生 SVG 绘制，未使用第三方图表库；交互模型为作者编写的简化模型，仅用于说明量级与敏感性，不构成投资建议。数据截至 2026 年 11 月 25 日，如后续财报更新，请以公司公告为准。
+        </div>
+      </section>
+
+
+
+
+    </div><!-- /content -->
+  </div><!-- /layout -->
+</div><!-- /wrap -->
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <h4>关于这份作业</h4>
+      <p>《飞行汽车技术基础》课程作业 · 针对某一飞行汽车产品/技术的全方位调研与分析。</p>
+      <p>本站为纯静态页面，无外部依赖，可直接部署于 GitHub Pages。</p>
+    </div>
+    <div>
+      <h4>声明</h4>
+      <p>全部图表为作者自制示意图，不构成投资建议。</p>
+      <p>数据截至 2026 年 11 月 25 日。</p>
+    </div>
+    <div>
+      <h4>导航</h4>
+      <p><a href="#s01">摘要</a> · <a href="#s03">技术</a> · <a href="#s04">适航</a></p>
+      <p><a href="#s06">经济</a> · <a href="#s08">竞争</a> · <a href="#s11">文献</a></p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>EHANG EH216-S · RESEARCH DOSSIER</span>
+    <span>© <span id="year">2026</span> · 课程作业 · 非商业用途</span>
+  </div>
+</footer>
+
+<script>
+/* ==========================================================================
+   亿航 EH216-S 调研站 — 交互与图表
+   纯原生 JS，无外部依赖
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+  var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
+  var NS = "http://www.w3.org/2000/svg";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var canObserve = "IntersectionObserver" in window;
+  // 只有脚本可用时才启用"入场隐藏"，保证禁用 JS 时内容依然完整可见
+  if (canObserve) document.documentElement.classList.add("js");
+
+  function el(tag, attrs, parent) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) {
+      if (attrs.hasOwnProperty(k)) n.setAttribute(k, attrs[k]);
+    }
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function txt(node, s) { node.textContent = s; return node; }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  /* ------------------------------------------------------------------ */
+  /* 1. 阅读进度                                                         */
+  /* ------------------------------------------------------------------ */
+  var progress = $(".scroll-progress");
+  var doc = document.documentElement;
+  function onScroll() {
+    var h = doc.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    if (progress) progress.style.width = p.toFixed(2) + "%";
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ------------------------------------------------------------------ */
+  /* 2. 入场动效 + 数字滚动                                              */
+  /* ------------------------------------------------------------------ */
+  function animateCount(node) {
+    var target = parseFloat(node.getAttribute("data-count"));
+    var dec = parseInt(node.getAttribute("data-dec") || "0", 10);
+    var prefix = node.getAttribute("data-prefix") || "";
+    var suffix = node.getAttribute("data-suffix") || "";
+    if (isNaN(target)) return;
+    if (reduced) {
+      node.textContent = prefix + target.toFixed(dec) + suffix;
+      return;
+    }
+    var start = null;
+    var dur = 1100;
+    function step(t) {
+      if (!start) start = t;
+      var k = clamp((t - start) / dur, 0, 1);
+      var e = 1 - Math.pow(1 - k, 3);
+      node.textContent = prefix + (target * e).toFixed(dec) + suffix;
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var obs = null;
+  if (canObserve) {
+    obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add("is-in");
+        $$("[data-count]", en.target).forEach(function (n) {
+          if (!n.dataset.done) { n.dataset.done = "1"; animateCount(n); }
+        });
+        obs.unobserve(en.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+    $$(".reveal").forEach(function (n) { obs.observe(n); });
+  }
+  // 首屏不等待 IntersectionObserver
+  $$(".hero [data-count]").forEach(function (n) {
+    if (!n.dataset.done) { n.dataset.done = "1"; animateCount(n); }
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* 3. 目录高亮                                                         */
+  /* ------------------------------------------------------------------ */
+  var tocLinks = $$(".toc a[href^='#']");
+  var sections = tocLinks.map(function (a) { return $(a.getAttribute("href")); }).filter(Boolean);
+  function spy() {
+    var pos = window.scrollY + window.innerHeight * 0.28;
+    var active = null;
+    sections.forEach(function (s) {
+      var top = s.getBoundingClientRect().top + window.scrollY;
+      if (top <= pos) active = s;
+    });
+    tocLinks.forEach(function (a) {
+      a.classList.toggle("is-active", active && a.getAttribute("href") === "#" + active.id);
+    });
+  }
+  window.addEventListener("scroll", spy, { passive: true });
+  spy();
+
+  /* ------------------------------------------------------------------ */
+  /* 4. 等轴测示意：8 轴 16 桨                                            */
+  /* ------------------------------------------------------------------ */
+  var craft = $("#craftBlueprint");
+  if (craft) {
+    var W = 420, C = W / 2, R_ARM = 138;
+    var g = el("g", {}, craft);
+    // 基准环
+    el("circle", { cx: C, cy: C, r: 176, class: "orbit" }, g);
+    el("circle", { cx: C, cy: C, r: 196, class: "orbit", opacity: ".5" }, g);
+    // 8 条机臂 + 共轴双桨
+    for (var i = 0; i < 8; i++) {
+      var a = (i * 45 + 22.5) * Math.PI / 180;
+      var x = C + Math.cos(a) * R_ARM;
+      var y = C + Math.sin(a) * R_ARM;
+      el("line", { x1: C, y1: C, x2: x, y2: y, class: "blueprint", "stroke-width": 2.2 }, g);
+      el("circle", { cx: x, cy: y, r: 4.4, class: "blueprint" }, g);
+      // 共轴双桨：沿机臂前后各一片，俯视投影为两个交叠圆盘
+      var off = 9;
+      var x1 = C + Math.cos(a) * (R_ARM - off), y1 = C + Math.sin(a) * (R_ARM - off);
+      var x2 = C + Math.cos(a) * (R_ARM + off), y2 = C + Math.sin(a) * (R_ARM + off);
+      el("circle", { cx: x1, cy: y1, r: 47, class: "blueprint rotor" }, g);
+      el("circle", { cx: x2, cy: y2, r: 47, class: "blueprint rotor-disc" }, g);
+      el("circle", { cx: x1, cy: y1, r: 6, class: "blueprint" }, g);
+      el("circle", { cx: x2, cy: y2, r: 6, class: "blueprint" }, g);
+    }
+    // 机体
+    var body = el("g", {}, g);
+    el("ellipse", { cx: C, cy: C, rx: 30, ry: 52, class: "blueprint", "stroke-width": 1.6 }, body);
+    el("ellipse", { cx: C, cy: C, rx: 20, ry: 36, class: "blueprint", "stroke-dasharray": "2 3" }, body);
+    el("line", { x1: C, y1: C - 52, x2: C, y2: C + 52, class: "blueprint", opacity: ".5" }, body);
+    // 滑橇
+    el("path", { d: "M" + (C - 46) + " " + (C + 62) + " q46 16 92 0", class: "blueprint" }, g);
+    el("path", { d: "M" + (C - 50) + " " + (C + 74) + " q50 14 100 0", class: "blueprint", opacity: ".5" }, g);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 5. 图表工具                                                         */
+  /* ------------------------------------------------------------------ */
+  function frame(host, w, h) {
+    host.innerHTML = "";
+    var s = el("svg", {
+      viewBox: "0 0 " + w + " " + h,
+      class: "fig-svg",
+      role: "img",
+      preserveAspectRatio: "xMidYMid meet"
+    }, host);
+    return s;
+  }
+  function axisY(svg, o) {
+    o.values.forEach(function (v) {
+      var y = o.y0 - (v / o.max) * (o.y0 - o.y1);
+      el("line", { x1: o.x0, y1: y, x2: o.x1, y2: y, class: "grid-line" }, svg);
+      var t = el("text", { x: o.x0 - 10, y: y + 3, "text-anchor": "end" }, svg);
+      txt(t, v);
+    });
+  }
+
+  /* ---- 5.1 交付量 / 营收 组合图 ---- */
+  var comboHost = $("#chartCombo");
+  if (comboHost) {
+    var CW = 760, CH = 360, m = { l: 46, r: 58, t: 26, b: 52 };
+    var svg = frame(comboHost, CW, CH);
+    var x0 = m.l, x1 = CW - m.r, y0 = CH - m.b, y1 = m.t;
+    var years = ["2023", "2024", "2025", "2026 H1"];
+    var eh = [52, 216, 215, 39];
+    var vt = [0, 0, 6, 1];
+    var rev = [117.4, 456.2, 509.5, 103.5];
+    var maxU = 260, maxR = 600;
+    var step = (x1 - x0) / years.length;
+    var bw = 40;
+
+    axisY(svg, { x0: x0, x1: x1, y0: y0, y1: y1, max: maxU, values: [0, 50, 100, 150, 200, 250] });
+    years.forEach(function (yr, i) {
+      var cx = x0 + step * (i + 0.5);
+      var h1 = (eh[i] / maxU) * (y0 - y1);
+      var h2 = (vt[i] / maxU) * (y0 - y1);
+      el("rect", { x: cx - bw / 2, y: y0 - h1, width: bw, height: h1, class: "bar" }, svg);
+      if (h2 > 0) el("rect", { x: cx - bw / 2, y: y0 - h1 - h2, width: bw, height: h2, class: "bar-alt" }, svg);
+      var tot = el("text", { x: cx, y: y0 - h1 - h2 + 18, "text-anchor": "middle", class: "val val-w" }, svg);
+      txt(tot, (eh[i] + vt[i]) + " 架");
+      var xl = el("text", { x: cx, y: y0 + 20, "text-anchor": "middle" }, svg);
+      txt(xl, yr);
+      // 折线点
+      var ry = y0 - (rev[i] / maxR) * (y0 - y1);
+      el("circle", { cx: cx, cy: ry, r: 4, fill: "#b4502f" }, svg);
+      el("circle", { cx: cx, cy: ry, r: 8, fill: "none", stroke: "#b4502f", "stroke-opacity": ".3" }, svg);
+      var rv = el("text", { x: cx, y: ry - 12, "text-anchor": "middle", class: "val", fill: "#b4502f" }, svg);
+      txt(rv, rev[i].toFixed(1));
+    });
+    // 营收折线
+    var pts = rev.map(function (v, i) {
+      return (x0 + step * (i + 0.5)) + "," + (y0 - (v / maxR) * (y0 - y1));
+    }).join(" ");
+    el("polyline", { points: pts, class: "line" }, svg);
+    // 双轴说明
+    var la = el("text", { x: x0 - 6, y: 14, class: "lbl" }, svg); txt(la, "交付架数");
+    var ra = el("text", { x: x1 + 6, y: 14, class: "lbl", "text-anchor": "end", fill: "#b4502f" }, svg); txt(ra, "营收 / 亿元");
+    var ra2 = el("text", { x: x1 + 52, y: y1 + 12, "text-anchor": "end", class: "val", fill: "#b4502f", opacity: ".8" }, svg); txt(ra2, "600");
+    el("text", { x: x1 + 52, y: y0, "text-anchor": "end", class: "val", fill: "#b4502f", opacity: ".8" }, svg).textContent = "0";
+    var unit = el("text", { x: x1 + 6, y: y0 + 34, class: "lbl", "text-anchor": "end" }, svg);
+    txt(unit, "2026 H1 为半年数据");
+  }
+
+  /* ---- 5.2 技术路线散点图 ---- */
+  var scHost = $("#chartScatter");
+  if (scHost) {
+    var SW = 760, SH = 420, sm = { l: 54, r: 24, t: 34, b: 54 };
+    var s = frame(scHost, SW, SH);
+    var sx0 = sm.l, sx1 = SW - sm.r, sy0 = SH - sm.b, sy1 = sm.t;
+    var maxX = 300, maxY = 6;
+    var px = function (v) { return sx0 + (v / maxX) * (sx1 - sx0); };
+    var py = function (v) { return sy0 - (v / maxY) * (sy0 - sy1); };
+
+    // 区间底色
+    el("rect", { x: sx0, y: sy1, width: px(60) - sx0, height: sy0 - sy1, fill: "rgba(29,58,82,.045)" }, s);
+    el("rect", { x: px(60), y: sy1, width: sx1 - px(60), height: sy0 - sy1, fill: "rgba(169,139,79,.07)" }, s);
+    var lb1 = el("text", { x: sx0 + 12, y: sy1 + 18, class: "lbl", fill: "#8b959d" }, s);
+    txt(lb1, "多旋翼 · 短航程");
+    var lb2 = el("text", { x: px(60) + 12, y: sy1 + 18, class: "lbl", fill: "#8b959d" }, s);
+    txt(lb2, "复合翼 / 倾转旋翼 · 长航程");
+
+    // 轴
+    el("line", { x1: sx0, y1: sy0, x2: sx1, y2: sy0, class: "axis" }, s);
+    el("line", { x1: sx0, y1: sy0, x2: sx0, y2: sy1, class: "axis" }, s);
+    [0, 60, 120, 180, 240, 300].forEach(function (v) {
+      el("line", { x1: px(v), y1: sy0, x2: px(v), y2: sy0 + 4, stroke: "#8b959d" }, s);
+      var t = el("text", { x: px(v), y: sy0 + 18, "text-anchor": "middle" }, s); txt(t, v);
+    });
+    [0, 2, 4, 6].forEach(function (v) {
+      el("line", { x1: sx0 - 4, y1: py(v), x2: sx0, y2: py(v), stroke: "#8b959d" }, s);
+      var t = el("text", { x: sx0 - 10, y: py(v) + 3, "text-anchor": "end" }, s); txt(t, v);
+    });
+    var xt = el("text", { x: (sx0 + sx1) / 2, y: SH - 14, "text-anchor": "middle", class: "lbl" }, s);
+    txt(xt, "设计航程 / km");
+    var yt = el("text", { x: 12, y: (sy0 + sy1) / 2, class: "lbl", transform: "rotate(-90 12 " + ((sy0 + sy1) / 2) + ")" }, s);
+    txt(yt, "载客人数");
+
+    var craftPts = [
+      { n: "EH216-S", x: 30, y: 2, c: 1, hi: true, dx: 10, dy: -12, anchor: "start" },
+      { n: "VoloCity", x: 35, y: 2, c: 1, dx: 10, dy: 18, anchor: "start" },
+      { n: "Archer Midnight", x: 100, y: 4, c: 0, dx: 0, dy: -16, anchor: "middle" },
+      { n: "Joby S4", x: 161, y: 4, c: 0, dx: 12, dy: 8, anchor: "start" },
+      { n: "AutoFlight V2000EM", x: 250, y: 5, c: 0, dx: 0, dy: 24, anchor: "middle" }
+    ];
+    craftPts.forEach(function (p) {
+      var cx = px(p.x), cy = py(p.y);
+      if (p.hi) {
+        el("circle", { cx: cx, cy: cy, r: 18, fill: "none", stroke: "#b4502f", "stroke-opacity": ".25" }, s);
+        el("circle", { cx: cx, cy: cy, r: 12, fill: "none", stroke: "#b4502f", "stroke-opacity": ".45" }, s);
+      }
+      el("circle", {
+        cx: cx, cy: cy, r: 6,
+        fill: p.c ? "#b4502f" : "#f4f1ea",
+        stroke: p.c ? "#b4502f" : "#1d3a52",
+        "stroke-width": p.c ? 0 : 1.6
+      }, s);
+      var t = el("text", {
+        x: cx + p.dx, y: cy + p.dy, "text-anchor": p.anchor,
+        class: "lbl", fill: p.hi ? "#b4502f" : "#2b3a47",
+        "font-weight": p.hi ? 600 : 400
+      }, s);
+      txt(t, p.n);
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 6. 能源约束计算器                                                   */
+  /* ------------------------------------------------------------------ */
+  var en = {
+    density: 200,   // Wh/kg 电池包
+    mass: 85,       // kg
+    power: 31,      // kW 平均
+    speed: 90       // km/h 巡航
+  };
+  function energyModel() {
+    var usable = en.density * en.mass * 0.75 / 1000; // kWh，放电深度 75%
+    var hours = usable / en.power;
+    var minutes = hours * 60;
+    var range = hours * en.speed * 0.85;
+    // 若把航时做到 40 分钟，需要多少电池？按同功率、同密度反推
+    var need = (en.power * (40 / 60)) / (en.density * 0.75 / 1000);
+    var mtow = 620 - en.mass + need;
+    return { usable: usable, minutes: minutes, range: range, need: need, mtow: mtow };
+  }
+  function renderEnergy() {
+    var r = energyModel();
+    $("#enOutE").textContent = r.usable.toFixed(1);
+    $("#enOutT").textContent = r.minutes.toFixed(0);
+    $("#enOutR").textContent = r.range.toFixed(0);
+    $("#enOutShare").textContent = ((en.mass / 620) * 100).toFixed(0);
+    if ($("#enOutNeed")) {
+      $("#enOutNeed").textContent = r.need.toFixed(0);
+      $("#enOutMtow").textContent = r.mtow.toFixed(0);
+      var over = r.mtow > 650;
+      $("#enOutMtow").className = over ? "is-bad" : "is-good";
+      var note = $("#enMtowNote");
+      if (note) {
+        note.textContent = over
+          ? "已超过专用条件 650 kg 的审定上限"
+          : "仍在 650 kg 审定上限之内，但已接近结构极限";
+      }
+    }
+    var bar = $("#enBar");
+    if (bar) bar.style.width = Math.min(100, (r.minutes / 60) * 100).toFixed(0) + "%";
+  }
+  if ($("#enDensity")) {
+    var bind = function (id, key) {
+      var input = $("#" + id);
+      input.addEventListener("input", function () {
+        en[key] = parseFloat(input.value);
+        var out = $("#" + id + "Val");
+        if (out) out.textContent = input.value;
+        renderEnergy();
+      });
+    };
+    bind("enDensity", "density");
+    bind("enMass", "mass");
+    bind("enPower", "power");
+    renderEnergy();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 7. 单位经济模型                                                     */
+  /* ------------------------------------------------------------------ */
+  var eco = {
+    fare: 299,
+    subsidy: 200,
+    pax: 2,
+    sorties: 4,
+    days: 300,
+    price: 239,
+    fixed: 60,
+    years: 8
+  };
+  function ecoModel() {
+    var unit = eco.fare + eco.subsidy; // 元 / 人（含补贴）
+    var revenue = unit * eco.pax * eco.sorties * eco.days / 10000; // 万元
+    var dep = eco.price / eco.years;
+    var cost = eco.fixed + dep;
+    var gross = revenue - cost;
+    var margin = revenue > 0 ? (gross / revenue) * 100 : 0;
+    var breakeven = (eco.fixed + dep) / (unit * eco.pax * eco.days / 10000);
+    var payback = gross > 0 ? eco.price / gross : Infinity;
+    return {
+      revenue: revenue, cost: cost, gross: gross, margin: margin,
+      breakeven: breakeven, payback: payback, dep: dep,
+      subShare: unit > 0 ? (eco.subsidy / unit) * 100 : 0,
+      fareRevenue: eco.fare * eco.pax * eco.sorties * eco.days / 10000
+    };
+  }
+  function renderEco() {
+    var r = ecoModel();
+    $("#ecoRev").textContent = r.revenue.toFixed(0);
+    $("#ecoCost").textContent = r.cost.toFixed(0);
+    var g = $("#ecoGross");
+    g.textContent = (r.gross >= 0 ? "+" : "") + r.gross.toFixed(0);
+    g.className = r.gross >= 0 ? "is-good" : "is-bad";
+    $("#ecoMargin").textContent = r.margin.toFixed(0) + "%";
+    $("#ecoBE").textContent = r.breakeven.toFixed(1);
+    var pb = $("#ecoPayback");
+    if (r.payback === Infinity || r.payback > 99) {
+      pb.textContent = "无法回收";
+    } else {
+      pb.textContent = r.payback.toFixed(1);
+    }
+    pb.className = (r.payback === Infinity || r.payback > 10) ? "is-bad" : "";
+    if ($("#ecoSubShare")) {
+      $("#ecoSubShare").textContent = r.subShare.toFixed(0) + "%";
+      $("#ecoSubShare").className = r.subShare > 30 ? "is-bad" : "";
+    }
+    var verdict = $("#ecoVerdict");
+    if (r.gross < 0) {
+      verdict.textContent = "该参数下每飞一个架次都在亏现金：收入覆盖不了折旧与固定成本，载客运营不具备自我维持能力。";
+      verdict.className = "out-note is-bad-text";
+    } else if (r.payback > 8) {
+      verdict.textContent = "毛利为正，但回收期超过 8 年——接近甚至超过航空器经济寿命，纯市场化投资缺乏吸引力。";
+      verdict.className = "out-note";
+    } else {
+      verdict.textContent = "毛利与回收期进入可接受区间；但请检查补贴占比：若超过 30%，本质仍是政策性收入。";
+      verdict.className = "out-note";
+    }
+    drawEcoChart();
+  }
+  function drawEcoChart() {
+    var host = $("#chartEco");
+    if (!host) return;
+    var W = 720, H = 260, mm = { l: 44, r: 20, t: 18, b: 40 };
+    var svg = frame(host, W, H);
+    var x0 = mm.l, x1 = W - mm.r, y0 = H - mm.b, y1 = mm.t;
+    var maxPay = 20;
+    var xs = [], ys = [];
+    var base = { unit: eco.fare + eco.subsidy, pax: eco.pax, days: eco.days, price: eco.price, fixed: eco.fixed, years: eco.years };
+    for (var k = 1; k <= 12; k++) {
+      var rev = base.unit * base.pax * k * base.days / 10000;
+      var cost = base.fixed + base.price / base.years;
+      var gross = rev - cost;
+      var pay = gross > 0 ? base.price / gross : maxPay;
+      xs.push(k);
+      ys.push(clamp(pay, 0, maxPay));
+    }
+    axisY(svg, { x0: x0, x1: x1, y0: y0, y1: y1, max: maxPay, values: [0, 5, 10, 15, 20] });
+    var px = function (v) { return x0 + ((v - 1) / 11) * (x1 - x0); };
+    var py = function (v) { return y0 - (v / maxPay) * (y0 - y1); };
+    // 10 年参考线
+    el("line", { x1: x0, y1: py(10), x2: x1, y2: py(10), stroke: "#a98b4f", "stroke-dasharray": "4 4", "stroke-width": 1 }, svg);
+    el("text", { x: x1, y: py(10) - 5, "text-anchor": "end", class: "val", fill: "#a98b4f" }, svg).textContent = "10 年门槛";
+    el("line", { x1: x0, y1: y0, x2: x1, y2: y0, class: "axis" }, svg);
+    var pts = xs.map(function (v, i) { return px(v) + "," + py(ys[i]); }).join(" ");
+    el("polyline", { points: pts, class: "line" }, svg);
+    xs.forEach(function (v, i) {
+      el("circle", { cx: px(v), cy: py(ys[i]), r: 2.6, fill: "#b4502f" }, svg);
+      if (v % 2 === 0 || v === 1) {
+        var t = el("text", { x: px(v), y: y0 + 18, "text-anchor": "middle" }, svg); txt(t, v);
+      }
+    });
+    var cur = clamp(eco.sorties, 1, 12);
+    var curPay = ys[cur - 1];
+    el("line", { x1: px(cur), y1: y1, x2: px(cur), y2: y0, stroke: "#14202b", "stroke-dasharray": "2 3", opacity: ".45" }, svg);
+    el("circle", { cx: px(cur), cy: py(curPay), r: 5.5, fill: "#14202b" }, svg);
+    var lbl = el("text", { x: x1 - 8, y: y1 + 14, "text-anchor": "end", class: "val", "font-weight": 600 }, svg);
+    txt(lbl, "当前 " + cur + " 架次 · " + (ecoModel().payback > 99 ? ">20" : ecoModel().payback.toFixed(1)) + " 年");
+    var xt = el("text", { x: (x0 + x1) / 2, y: H - 8, "text-anchor": "middle", class: "lbl" }, svg);
+    txt(xt, "单机日均架次");
+    var yt = el("text", { x: 12, y: (y0 + y1) / 2, transform: "rotate(-90 12 " + ((y0 + y1) / 2) + ")", class: "lbl" }, svg);
+    txt(yt, "静态回收期 / 年");
+  }
+  if ($("#ecoFare")) {
+    var bindEco = function (id, key) {
+      var input = $("#" + id);
+      input.addEventListener("input", function () {
+        eco[key] = parseFloat(input.value);
+        var out = $("#" + id + "Val");
+        if (out) out.textContent = input.value;
+        renderEco();
+      });
+    };
+    bindEco("ecoFare", "fare");
+    bindEco("ecoSubsidy", "subsidy");
+    bindEco("ecoPax", "pax");
+    bindEco("ecoSorties", "sorties");
+    bindEco("ecoDays", "days");
+    bindEco("ecoPrice", "price");
+    bindEco("ecoFixed", "fixed");
+    bindEco("ecoYears", "years");
+    renderEco();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 8. 场景矩阵打分条                                                   */
+  /* ------------------------------------------------------------------ */
+  $$(".cell-score").forEach(function (cell) {
+    var v = parseInt(cell.getAttribute("data-score"), 10) || 0;
+    var tone = v >= 4 ? "" : (v === 3 ? "mid" : "low");
+    var html = "";
+    for (var i = 1; i <= 5; i++) {
+      html += '<i class="' + (i <= v ? "on " + tone : "") + '"></i>';
+    }
+    cell.innerHTML = html + "<em>" + v + "/5</em>";
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* 9. 年份                                                             */
+  /* ------------------------------------------------------------------ */
+  var yr = $("#year");
+  if (yr) yr.textContent = "2026";
+
+})();
+
+</script>
+</body>
+</html>
